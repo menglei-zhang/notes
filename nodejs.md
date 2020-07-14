@@ -1,3 +1,6 @@
+js和node都运行在v8引擎
+
+
 nvm：nodejs 版本管理工具。也就是说：一个 nvm 可以管理很多 node 版本和 npm 版本。
 nodejs：在项目开发时的所需要的代码库
 npm：nodejs 包管理工具。
@@ -7,7 +10,8 @@ npm 管理 nodejs 中的第三方插件
 nvm 管理 nodejs 和 npm 的版本
 npm 可以管理 nodejs 的第三方插件
 
-
+对于文件读写，node 采用的是非阻塞IO；
+非阻塞IO将读写操作交给CPU，而代码正常执行，减少等待浪费的性能；
 
 1.3 包
     多个模块可以形成包，满足特定的规则才能形成规范的包
@@ -53,11 +57,48 @@ http超文本传输协议：就是数据如何传输的
     
 node 是什么
 node 对象
-    全局对象  process
-    核心对象  path fs http
-    自定义对象
+    全局对象：
+        process
+            process.env 是一个对象，我们可以通过其属性名来获取具体的环境变量值。
+            process.argv    获取命令行参数
+        filename dirname
+            __filename  文件
+            __dirname   目录
+    核心对象：  
+        path  const path = require('path');
+            拼接并修正路径
+            path.join
+            path.resolve
+            path.parse();  // 路径转为对象
+            path.format()  // 对象转成字符串
+        fs
+        http
+    自定义对象：
+
+### fs模块
+## 文件读写（文件的操作就是IO）
+# fs.readFile   Buffer(16进制)  Buffer.toString('utf8')
+fs.readFile('./06_a.txt','utf8',(err,data)=>{
+    if(err) throw err;   // 抛到控制台
+    console.log(data);
+});
+# fs.writeFile
+fs.writeFile('./06_a.txt','我今天赚了一块钱',{flag:'a'},(err)=>{
+    if(err) throw err;   // 抛到控制台
+    console.log('完成');
+});
+# 其他功能
+# 扩展介绍
+
 http  fs 同步请求，获取页面
 http  相应的json对象 配套前端ajax 请求
+
+CommonJS：规范JavaScript 语言作为后端语言运行的标准；
+模块（Module）应该怎么写：
+1、依赖一个模块 require('模块名(id)')；
+2、需要被模块依赖 module.export = 给外部的数据；
+3、一个文件一个模块；
+
 
 
 1、引入对象
