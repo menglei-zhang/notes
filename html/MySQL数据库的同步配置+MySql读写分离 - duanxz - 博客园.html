@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)https://www.cnblogs.com/duanxz/p/4493936.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="origin">
+    <meta property="og:description" content="使用mysql主从复制的好处有： 1、采用主从服务器这种架构，稳定性得以提升。如果主服务器发生故障，我们可以使用从服务器来提供服务。 2、在主从服务器上分开处理用户的请求，可以提升数据处理效率。 3、">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>MySQL数据库的同步配置+MySql读写分离 - duanxz - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="https://common.cnblogs.com/favicon.ico?v=20200522" type="image/x-icon">
+    
+    <link rel="stylesheet" href="./MySQL数据库的同步配置+MySql读写分离 - duanxz - 博客园_files/blog-common.min.css">
+    <link id="MainCss" rel="stylesheet" href="./MySQL数据库的同步配置+MySql读写分离 - duanxz - 博客园_files/bundle-sea.min.css">
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./MySQL数据库的同步配置+MySql读写分离 - duanxz - 博客园_files/bundle-sea-mobile.min.css">
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/duanxz/rss">
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/duanxz/rsd.xml">
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/duanxz/wlwmanifest.xml">
+    <script async="" src="./MySQL数据库的同步配置+MySql读写分离 - duanxz - 博客园_files/analytics.js"></script><script type="text/javascript" src="./MySQL数据库的同步配置+MySql读写分离 - duanxz - 博客园_files/encoder.js"></script><script src="./MySQL数据库的同步配置+MySql读写分离 - duanxz - 博客园_files/jquery-2.2.0.min.js"></script>
+    <script src="./MySQL数据库的同步配置+MySql读写分离 - duanxz - 博客园_files/blog-common.min.js"></script>
+    <script>
+        var currentBlogId = 86007;
+        var currentBlogApp = 'duanxz';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var skinName = 'sea';
+    </script>
+    
+    
+    
+<link rel="preload" href="./MySQL数据库的同步配置+MySql读写分离 - duanxz - 博客园_files/f.txt" as="script"><script type="text/javascript" src="./MySQL数据库的同步配置+MySql读写分离 - duanxz - 博客园_files/f.txt"></script><script src="./MySQL数据库的同步配置+MySql读写分离 - duanxz - 博客园_files/pubads_impl_2020062902.js" async=""></script><link rel="prefetch" href="https://f75ab997f28a5c0fd265553ed2197c97.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html"><link rel="prefetch" href="https://tpc.googlesyndication.com/safeframe/1-0-37/html/container.html"></head>
+<body>
+    <a name="top"></a>
+    
+    <!--done-->
+<div id="header">
+	
+<!--done-->
+<div class="header">
+	<div class="headerText">
+		<a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/duanxz/">学无止境</a>
+<br>
+		
+
+
+	</div>
+</div>
+
+
+</div>
+
+<div id="mytopmenu">
+	
+		<div id="mylinks">
+<a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+ &nbsp;
+
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/duanxz/">
+首页</a>
+ &nbsp;
+
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+ &nbsp;
+
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/duanxz">
+联系</a> &nbsp;
+
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/duanxz/rss/">
+订阅</a>
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/duanxz/rss/">
+    <img src="./MySQL数据库的同步配置+MySql读写分离 - duanxz - 博客园_files/xml.gif" alt="订阅">
+</a>&nbsp;
+
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+
+
+</div>
+		<div id="mystats">随笔-
+2079&nbsp;
+评论-
+230&nbsp;
+文章-
+4&nbsp;
+<!--trackbacks-<partial name="./Shared/_PingTrackCount.cshtml" model="BlogServer.Web.Models.DetailBlogPage" />-->
+
+</div>
+	
+</div>
+<div id="centercontent">
+	<div id="post_detail">
+<div class="post">
+	<h1 class="postTitle">
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/duanxz/p/4493936.html">
+    <span>MySQL数据库的同步配置+MySql读写分离</span>
+    
+
+
+</a>
+</h1>
+	
+<div id="cnblogs_post_body" class="blogpost-body ">
+    <p>使用mysql主从复制的好处有： &nbsp;</p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">1、采用主从服务器这种架构，稳定性得以提升。如果主服务器发生故障，我们可以使用从服务器来提供服务。</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">2、在主从服务器上分开处理用户的请求，可以提升数据处理效率。</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">3、将主服务器上的数据复制到从服务器上，保护数据免受意外的损失。</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">环境描述：</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">新企业要搭建架构为主从复制的mysql数据库。</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">主服务器（mysql-master）：IP地址：192.168.48.128，mysql已安装，没有用户数据。</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">从服务器（mysql-slave）：IP地址：192.168.48.130，mysql已安装，没有用户数据。</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">主从服务器均可正常提供服务。</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">&nbsp;</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;"><strong>配置主服务器(master)</strong></span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">1、编辑数据库配置文件my.cnf或my.ini（windows）,一般在/etc/目录下。</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">在[mysqld]的下面加入下面代码：</span></p>
+<div class="cnblogs_code">
+<pre>log-bin=mysql-<span style="color: #000000;">bin
+server</span>-<span style="color: #0000ff;">id</span>=<span style="color: #800080;">1</span><span style="color: #000000;">
+innodb_flush_log_at_trx_commit</span>=<span style="color: #800080;">1</span><span style="color: #000000;">
+sync_binlog</span>=<span style="color: #800080;">1</span><span style="color: #000000;">
+binlog</span>-<span style="color: #0000ff;">do</span>-db=<span style="color: #000000;">wordpress
+binlog_ignore_db</span>=mysql</pre>
+</div>
+<p>说明：</p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">server-id=1 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;//中的1可以任定义，只要是唯一的就行。</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">binlog-do-db=wordpress &nbsp; //是表示只备份wordpress。</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">binlog_ignore_db=mysql &nbsp; //表示忽略备份mysql。</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">不加binlog-do-db和binlog_ignore_db，那就表示备份全部数据库。</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">&nbsp;</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">2、然后重启MySQL:#servicemysqldrestart</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">3、登录mysql，在mysql中添加一个backup的账号，并授权给从服务器。</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">[root@localhost~]#mysql-uroot–p123456登录mysqlmysql&gt;grantreplicationslaveon*.*to'backup'@'192.168.48.130'identifiedby'backup';</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">创建backup用户，并授权给192.168.48.130使用。</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">4、查询主数据库状态，并记下FILE及Position的值，这个在后面配置从服务器的时候要用到。</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">mysql&gt;showmasterstatus;请记下显示的信息，配置从服务器会用到。+——————+———-+————–+——————+|File|Position|Binlog_Do_DB|Binlog_Ignore_DB|+——————+———-+————–+——————+|mysql-bin.000001|253|dbispconfig|mysql|+——————+———-+————–+——————+</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">1rowinset(0.00sec)</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">&nbsp;</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;"><strong>在从服务器上操作：</strong></span></p>
+<p>1)、确保/etc/my.cnf中有log-bin=mysql-bin和server-id=1参数，并把server-id=1修改为server-id=10。修改之后如下所示：</p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">[mysqld]</span></p>
+<div class="cnblogs_code">
+<pre>log-bin=mysql-<span style="color: #000000;">bin   //启动二进制文件
+server</span>-<span style="color: #0000ff;">id</span>=10        //服务器ID</pre>
+</div>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">2）、重启mysql服务。</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">[root@localhost~]#mysqladmin-p123456shutdown</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">[root@localhost~]#mysqld_safe--user=mysql&amp;</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">&nbsp;</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">3)、登录mysql，执行如下语句</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">[root@localhost~]#mysql-uroot–p123456</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">mysql&gt;changemastertomaster_host='192.168.48.128',master_user='backup',master_password='backup',master_log_file='mysql-bin.000003',master_log_pos=401;</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">&nbsp;</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">4)、启动slave同步。</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">mysql&gt;startslave;</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">&nbsp;</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">5)、检查主从同步，如果您看到Slave_IO_Running和Slave_SQL_Running均为Yes，则主从复制连接正常。mysql&gt;showslavestatus\G</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">&nbsp;</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">验证配置是否正常，mysql主从能否正常复制。</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">在主数据库上新建一个库，并且在库中写一个表和一些数据。</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">[root@localhost~]#mysql-uroot–p123456</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">mysql&gt;createdatabasemysqltest;</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">mysql&gt;usemysqltest;</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">mysql&gt;createtableuser(idint(5),namechar(10));</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">mysql&gt;insertintouservalues(00001,'zhangsan');</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">&nbsp;</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">在从数据库中验证一下，是否正常复制到数据。</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">[root@localhost~]#mysql-uroot–p123456</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">mysql&gt;showdatabases;</span></p>
+<p><span style="font-family: verdana, &#39;ms song&#39;, 宋体, Arial, 微软雅黑, Helvetica, sans-serif;">mysql&gt;select*frommysqltest.user;</span></p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block"><div id="BlogPostCategory">
+    分类: 
+            <a href="https://www.cnblogs.com/duanxz/category/383842.html" target="_blank">mysql</a>,             <a href="https://www.cnblogs.com/duanxz/category/901172.html" target="_blank">mysql架构</a></div>
+<div id="EntryTag">
+    标签: 
+            <a href="https://www.cnblogs.com/duanxz/tag/mysql/">mysql</a>,             <a href="https://www.cnblogs.com/duanxz/tag/%E4%B8%BB%E4%BB%8E%E5%BA%93%E9%85%8D%E7%BD%AE/">主从库配置</a>,             <a href="https://www.cnblogs.com/duanxz/tag/mysql%E6%9E%B6%E6%9E%84/">mysql架构</a></div>
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(4493936,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow(&#39;380416fe-3256-e011-a53f-842b2b196315&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./MySQL数据库的同步配置+MySql读写分离 - duanxz - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./MySQL数据库的同步配置+MySql读写分离 - duanxz - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/duanxz/" target="_blank"><img src="./MySQL数据库的同步配置+MySql读写分离 - duanxz - 博客园_files/u285763.jpg" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/duanxz/">duanxz</a><br>
+            <a href="https://home.cnblogs.com/u/duanxz/followees/">关注 - 19</a><br>
+            <a href="https://home.cnblogs.com/u/duanxz/followers/">粉丝 - 1726</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;380416fe-3256-e011-a53f-842b2b196315&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(4493936,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(4493936,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/duanxz/p/4493445.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/duanxz/p/4493445.html" title="发布于 2015-05-11 00:01">JMX学习笔记(二)-Notification</a>
+    <br>
+    <a href="https://www.cnblogs.com/duanxz/p/4493948.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/duanxz/p/4493948.html" title="发布于 2015-05-11 10:58">springboot读写分离--temp</a>
+
+</div>
+</div>
+	<div class="postDesc">posted on 
+<span id="post-date">2015-05-11 10:56</span>&nbsp;
+<a href="https://www.cnblogs.com/duanxz/">duanxz</a>&nbsp;
+阅读(<span id="post_view_count">4034</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=4493936" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(4493936);return false;">收藏</a></div>
+</div>
+
+
+<script src="./MySQL数据库的同步配置+MySql读写分离 - duanxz - 博客园_files/highlight.min.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 86007, cb_blogApp = 'duanxz', cb_blogUserGuid = '380416fe-3256-e011-a53f-842b2b196315';
+    var cb_entryId = 4493936, cb_entryCreatedDate = '2015-05-11 10:56', cb_postType = 1; 
+    loadViewCount(cb_entryId);
+    loadSideColumnAd();
+</script><a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<script>
+    var commentManager = new blogCommentManager();
+    commentManager.renderComments(0);
+</script>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/duanxz/p/4493936.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/duanxz/p/4493936.html#top">返回顶部</a></div>
+    <div id="comment_form_container" style="visibility: visible;"><div class="login_tips">
+    注册用户登录后才能发表评论，请 
+    <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a>
+     或 
+    <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，
+    <a href="https://www.cnblogs.com/">访问</a> 网站首页。
+</div></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"><a href="https://www.wenjuan.com/s/3uIjeq0/" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-博客园问卷调查&#39;)">【推荐】了解你才能更懂你，博客园首发问卷调查，助力社区新升级</a><br><a href="http://www.ucancode.com/index.htm" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-ucancode&#39;)">【推荐】超50万行VC++源码: 大型组态工控、电力仿真CAD与GIS源码库</a><br><a href="https://developer.aliyun.com/article/715141?utm_content=g_1000088938" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-阿里云开发者社区&#39;)">【推荐】12知识点+20干货案例+110面试题，助你拿offer | Python面试宝典</a><br></div>
+    <div id="opt_under_post"></div>
+    <script async="" src="./MySQL数据库的同步配置+MySql读写分离 - duanxz - 博客园_files/gpt.js"></script>
+    <script>
+        var mobileVisit = screen.width < 500;
+        window.googletag = window.googletag || { cmd: [] };
+        googletag.cmd.push(function () {
+            googletag.defineSlot('/1090369/C1', [300, 250], 'div-gpt-ad-1592365906576-0').addService(googletag.pubads());
+            if (!mobileVisit) {
+                googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1592366332455-0').addService(googletag.pubads());
+            }
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+    </script>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1592365906576-0" style="width: 300px; height: 250px;" data-google-query-id="CLvK-tCMtOoCFcgmvQodnhMIIw">
+            
+        <div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" data-google-container-id="1" data-load-complete="true" src="./MySQL数据库的同步配置+MySql读写分离 - duanxz - 博客园_files/saved_resource.html"></iframe></div></div>
+    </div>
+    <div id="under_post_news"><div class="recomm-block"><b>相关博文：</b><br>·  <a title="windows mysql主 Linux mysql 从 主从同步，读写分离" href="https://www.cnblogs.com/already/p/4543781.html" target="_blank" onclick="clickRecomItmem(4543781)">windows mysql主 Linux mysql 从 主从同步，读写分离</a><br>·  <a title="Centos下MySQL主从同步配置" href="https://www.cnblogs.com/liaojie970/p/6198547.html" target="_blank" onclick="clickRecomItmem(6198547)">Centos下MySQL主从同步配置</a><br>·  <a title="提高性能，MySQL读写分离环境搭建" href="https://www.cnblogs.com/lenve/p/10855172.html" target="_blank" onclick="clickRecomItmem(10855172)">提高性能，MySQL读写分离环境搭建</a><br>·  <a title="Mysql到Hbase数据如何实时同步，强大的Streamsets告诉你" href="https://www.cnblogs.com/dashujunihaoa/p/10893682.html" target="_blank" onclick="clickRecomItmem(10893682)">Mysql到Hbase数据如何实时同步，强大的Streamsets告诉你</a><br>·  <a title="MySQL数据库企业级应用实践" href="https://www.cnblogs.com/fengxingzhe/p/11032867.html" target="_blank" onclick="clickRecomItmem(11032867)">MySQL数据库企业级应用实践</a><br>»  <a target="_blank" href="https://recomm.cnblogs.com/blogpost/4493936">更多推荐...</a></div></div>
+    <div id="cnblogs_c2" class="c_ad_block" style="display: none;">
+        <div id="div-gpt-ad-1592366332455-0" style="width: 468px; height: 60px;" data-google-query-id="CLzK-tCMtOoCFcgmvQodnhMIIw">
+            <script>
+                if (!mobileVisit) {
+                    if (canShowAdsense()) {
+                        googletag.cmd.push(function () { googletag.display('div-gpt-ad-1592366332455-0'); });
+                    } else {
+                        $('#cnblogs_c2').hide();
+                    }
+                }
+            </script>
+        <div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none; width: 468px; height: 60px;"></div></div>
+    </div>
+    <div id="under_post_kb">
+<div class="itnews c_ad_block">
+    <b>最新 IT 新闻</b>:
+    <br>
+ ·              <a href="https://news.cnblogs.com/n/666521/" target="_blank">腾讯内部人士爆料：与“老干妈”合作多个环节有漏洞 却无人察觉</a>
+            <br>
+ ·              <a href="https://news.cnblogs.com/n/666520/" target="_blank">抖音响彻校园</a>
+            <br>
+ ·              <a href="https://news.cnblogs.com/n/666519/" target="_blank">英国承诺向破产的卫星宽带公司OneWeb投资5亿美元</a>
+            <br>
+ ·              <a href="https://news.cnblogs.com/n/666518/" target="_blank">涮腾讯的“老千妈”团伙图什么？细思极恐</a>
+            <br>
+ ·              <a href="https://news.cnblogs.com/n/666517/" target="_blank">美国码农，正在逃离硅谷</a>
+            <br>
+    » <a href="https://news.cnblogs.com/" title="IT 新闻" target="_blank">更多新闻...</a>
+</div></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+        fixPostBody();
+        deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);        deliverAdT2();
+        deliverAdC1();
+        deliverAdC2();
+        loadNewsAndKb();
+        loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);        LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+        GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+        loadOptUnderPost();
+        GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div></div>
+
+
+</div>
+<div id="leftcontent">
+	
+		<div id="leftcontentcontainer">
+			
+<div id="sidebar_news" class="newsItem"><!--done-->
+<div class="newsItem">
+	
+<div id="blog-news">
+    
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/duanxz/">
+            duanxz
+        </a>
+        <br>
+        园龄：
+        <a href="https://home.cnblogs.com/u/duanxz/" title="入园时间：2011-03-25">
+            9年3个月
+        </a>
+        <br>
+        粉丝：
+        <a href="https://home.cnblogs.com/u/duanxz/followers/">
+            1726
+        </a>
+        <br>
+        关注：
+        <a href="https://home.cnblogs.com/u/duanxz/followees/">
+            19
+        </a>
+        <div id="p_b_follow">
+<a href="javascript:void(0)" onclick="follow(&#39;380416fe-3256-e011-a53f-842b2b196315&#39;)">+加关注</a></div>
+        <script>getFollowStatus('380416fe-3256-e011-a53f-842b2b196315');</script>
+    </div>
+</div>
+</div>
+
+</div>
+
+<div id="sidebar_ad"></div>
+			<div id="calendar"><div id="blog-calendar" style="">
+
+<table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar" border="0">
+    <tbody>
+        <tr>
+            <td colspan="7">
+                <table class="CalTitle" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2020/06/05&#39;); return false;">&lt;</a>
+                            </td>
+                            <td align="center">2020年7月</td>
+                            <td align="right" class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2020/08/05&#39;); return false;">&gt;</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr>
+                    <th class="CalDayHeader" align="center" abbr="日" scope="col">日</th>
+                    <th class="CalDayHeader" align="center" abbr="一" scope="col">一</th>
+                    <th class="CalDayHeader" align="center" abbr="二" scope="col">二</th>
+                    <th class="CalDayHeader" align="center" abbr="三" scope="col">三</th>
+                    <th class="CalDayHeader" align="center" abbr="四" scope="col">四</th>
+                    <th class="CalDayHeader" align="center" abbr="五" scope="col">五</th>
+                    <th class="CalDayHeader" align="center" abbr="六" scope="col">六</th>
+        </tr>
+            <tr>
+                            <td class="CalOtherMonthDay" align="center">28</td>
+                            <td class="CalOtherMonthDay" align="center">29</td>
+                            <td class="CalOtherMonthDay" align="center">30</td>
+                        <td class="" align="center">
+                            1
+                        </td>
+                        <td class="" align="center">
+                            2
+                        </td>
+                        <td class="" align="center">
+                            3
+                        </td>
+                    <td class="CalWeekendDay" align="center">
+                        4
+                    </td>
+            </tr>
+                <tr>
+                        <td class="CalTodayDay" align="center">
+                            5
+                        </td>
+                            <td class="" align="center">
+                                6
+                            </td>
+                            <td class="" align="center">
+                                7
+                            </td>
+                            <td class="" align="center">
+                                8
+                            </td>
+                            <td class="" align="center">
+                                9
+                            </td>
+                            <td class="" align="center">
+                                10
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            11
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            12
+                        </td>
+                            <td class="" align="center">
+                                13
+                            </td>
+                            <td class="" align="center">
+                                14
+                            </td>
+                            <td class="" align="center">
+                                15
+                            </td>
+                            <td class="" align="center">
+                                16
+                            </td>
+                            <td class="" align="center">
+                                17
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            18
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            19
+                        </td>
+                            <td class="" align="center">
+                                20
+                            </td>
+                            <td class="" align="center">
+                                21
+                            </td>
+                            <td class="" align="center">
+                                22
+                            </td>
+                            <td class="" align="center">
+                                23
+                            </td>
+                            <td class="" align="center">
+                                24
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            25
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            26
+                        </td>
+                            <td class="" align="center">
+                                27
+                            </td>
+                            <td class="" align="center">
+                                28
+                            </td>
+                            <td class="" align="center">
+                                29
+                            </td>
+                            <td class="" align="center">
+                                30
+                            </td>
+                            <td class="" align="center">
+                                31
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            1
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalOtherMonthDay" align="center">
+                            2
+                        </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                3
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                4
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                5
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                6
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                7
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            8
+                        </td>
+                </tr>
+    </tbody>
+</table></div></div>                
+                    <script>loadBlogDefaultCalendar();</script><br>
+			<div id="blog-sidecolumn">
+<!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div id="sidebar_search" class="mySearch">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk">
+            </div>
+            <div id="widget_my_google" class="div_my_zzk">
+                <input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+<div id="sidebar_shortcut" class="sidebar-block">
+    
+<h3 class="catListTitle">
+常用链接
+</h3>
+<ul>
+        <li>
+
+<a href="https://www.cnblogs.com/duanxz/p/" title="我的博客的随笔列表">我的随笔</a>
+</li>
+        <li>
+
+<a href="https://www.cnblogs.com/duanxz/MyComments.html" title="我的发表过的评论列表">我的评论</a>
+</li>
+        <li>
+
+<a href="https://www.cnblogs.com/duanxz/OtherPosts.html" title="我评论过的随笔列表">我的参与</a>
+</li>
+        <li>
+
+<a href="https://www.cnblogs.com/duanxz/RecentComments.html" title="我的博客的评论列表">最新评论</a>
+</li>
+        <li>
+
+<a href="https://www.cnblogs.com/duanxz/tag/" title="我的博客的标签列表">我的标签</a>
+</li>
+</ul>
+
+<!-- TODO: 检查是否有使用这一部分的控件，如果没有则应该删除。 -->
+<div id="itemListLin_con" style="display:none">
+    <ul>
+
+    </ul>
+</div>
+
+</div>
+
+<!-- 最新随笔 -->
+
+
+
+<!-- 我的标签 -->
+<div id="sidebar_toptags" class="sidebar-block">
+    
+<h3>我的标签</h3>
+<div id="MyTag">
+    <ul>
+        
+        <li>
+            <a href="https://www.cnblogs.com/duanxz/tag/mysql/">mysql</a>(121)
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/duanxz/tag/spring/">spring</a>(100)
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/duanxz/tag/linux%E5%91%BD%E4%BB%A4/">linux命令</a>(83)
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/duanxz/tag/monitor/">monitor</a>(76)
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/duanxz/tag/springcloud/">springcloud</a>(72)
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/duanxz/tag/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a>(58)
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/duanxz/tag/juc/">juc</a>(55)
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/duanxz/tag/distributed/">distributed</a>(55)
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/duanxz/tag/cache/">cache</a>(53)
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/duanxz/tag/JVM%E8%99%9A%E6%8B%9F%E6%9C%BA/">JVM虚拟机</a>(53)
+        </li>
+    <li>
+        <a href="https://www.cnblogs.com/duanxz/tag/">更多</a>
+    </li>
+
+    </ul>
+</div>
+
+</div>
+
+<!-- 积分与排名 -->
+
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+    
+		<h3 class="catListTitle">
+
+随笔分类
+
+
+</h3>
+				<ul class="catList">
+			
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/category/553816.html" rel="" target="">
+     high-concurrence(5)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/category/586230.html" rel="" target="">
+    alibaba(23)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/category/411002.html" rel="" target="">
+    Android(2)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/category/548212.html" rel="" target="">
+    annotation(7)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/category/418953.html" rel="" target="">
+    Application Server(34)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/category/422786.html" rel="" target="">
+    app-server管理与优化(2)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/category/428481.html" rel="" target="">
+    Architecture(38)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/category/904378.html" rel="" target="">
+    axis2(1)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/category/585830.html" rel="" target="">
+    build(11)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/category/539559.html" rel="" target="">
+    cache(55)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/category/978943.html" rel="" target="">
+    cache-memcache(20)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/category/394740.html" rel="" target="">
+    cache-redis(10)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/category/1335026.html" rel="" target="">
+    configserver(1)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/category/562262.html" rel="" target="">
+    configuration-center(2)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/category/1127449.html" rel="" target="">
+    consistency(20)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/category/568651.html" rel="" target="">
+    CXF(1)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/category/430438.html" rel="" target="">
+    db操作(3)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/category/565418.html" rel="" target="">
+    DB基础(15)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/category/419580.html" rel="" target="">
+    design discipline(8)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/category/1334959.html" rel="" target="">
+    DevOps(2)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/category/587085.html" rel="" target="">
+    distributed(73)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/category/445223.html" rel="" target="">
+    doc(2)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/category/1346307.html" rel="" target="">
+    docker(9)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/category/424347.html" rel="" target="">
+    dubbo(9)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/category/418564.html" rel="" target="">
+    eclipse(17)
+</a>
+
+</li>
+			
+				</ul>
+		<h3 class="catListTitle">
+
+随笔档案
+
+
+</h3>
+				<ul class="catList">
+			
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/archive/2020/04.html" rel="" target="">
+    2020年4月(4)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/archive/2020/03.html" rel="" target="">
+    2020年3月(12)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/archive/2019/12.html" rel="" target="">
+    2019年12月(1)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/archive/2019/11.html" rel="" target="">
+    2019年11月(23)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/archive/2019/10.html" rel="" target="">
+    2019年10月(1)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/archive/2019/08.html" rel="" target="">
+    2019年8月(9)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/archive/2019/07.html" rel="" target="">
+    2019年7月(8)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/archive/2019/06.html" rel="" target="">
+    2019年6月(1)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/archive/2019/05.html" rel="" target="">
+    2019年5月(3)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/archive/2019/04.html" rel="" target="">
+    2019年4月(6)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/archive/2019/03.html" rel="" target="">
+    2019年3月(2)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/archive/2019/02.html" rel="" target="">
+    2019年2月(20)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/archive/2019/01.html" rel="" target="">
+    2019年1月(11)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/archive/2018/12.html" rel="" target="">
+    2018年12月(12)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/archive/2018/11.html" rel="" target="">
+    2018年11月(17)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/archive/2018/10.html" rel="" target="">
+    2018年10月(8)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/archive/2018/09.html" rel="" target="">
+    2018年9月(18)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/archive/2018/08.html" rel="" target="">
+    2018年8月(13)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/archive/2018/07.html" rel="" target="">
+    2018年7月(11)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/archive/2018/06.html" rel="" target="">
+    2018年6月(24)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/archive/2018/05.html" rel="" target="">
+    2018年5月(5)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/archive/2018/03.html" rel="" target="">
+    2018年3月(7)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/archive/2018/02.html" rel="" target="">
+    2018年2月(1)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/archive/2017/12.html" rel="" target="">
+    2017年12月(1)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/archive/2017/11.html" rel="" target="">
+    2017年11月(5)
+</a>
+
+</li>
+			
+				</ul>
+		<h3 class="catListTitle">
+
+文章分类
+
+
+</h3>
+				<ul class="catList">
+			
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/category/383843.html" rel="" target="">
+    cloud(2)
+</a>
+
+</li>
+				<li class="catListItem"> 
+<a href="https://www.cnblogs.com/duanxz/category/383844.html" rel="" target="">
+    mysql(1)
+</a>
+
+</li>
+			
+				</ul>
+
+
+</div>
+
+<!-- 最新评论 -->
+<div id="sidebar_recentcomments" class="sidebar-block">
+    <div id="recent_comments_wrap" class="RecentComment">
+    <h3 class="catListTitle">最新评论</h3>
+    <div class="RecentCommentBlock">
+        <ul>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/duanxz/p/3788190.html">1. Re:mina2中的线程池</a></li>
+                    <li class="recent_comment_body">在服务器端，bind一个端口后，会创建一个Acceptor线程来负责监听工作。这个线程的工作只有一个，调用Java NIO接口在该端口上select connect事件，获取新建的连接后，封装成IoS...</li>
+                    <li class="recent_comment_author">--JiconYang</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/duanxz/p/5041110.html">2. Re:websocket之三：Tomcat的WebSocket实现</a></li>
+                    <li class="recent_comment_body">tomcat7 和tomcat8 区别还是挺大的，文章中提的：Tomcat提供的Upgrade Processor实现如下： org.apache.coyote.http11.upgrade.BioP...</li>
+                    <li class="recent_comment_author">--强哥叨逼叨</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/duanxz/p/5038471.html">3. Re:Thread之三：Thread Join()的用法</a></li>
+                    <li class="recent_comment_body"><p>wait（）会释放锁？才浅别出来误导人</p>
+</li>
+                    <li class="recent_comment_author">--古代超人</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/duanxz/p/5514190.html">4. Re:Apache Thrift学习之二（基础及原理）</a></li>
+                    <li class="recent_comment_body"><p>大佬这个写的很不错，十分感谢！</p>
+</li>
+                    <li class="recent_comment_author">--RecursionHs</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/duanxz/archive/2012/10/25/2739993.html">5. Re:SynchronizedMap</a></li>
+                    <li class="recent_comment_body"><p>大佬，，厉害啊，12年的见解就这么nb了。。我刚入职。</p>
+</li>
+                    <li class="recent_comment_author">--sjava</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/duanxz/p/4526763.html">6. Re:软件架构设计-五视图方法论</a></li>
+                    <li class="recent_comment_body"><p>我觉得挺好，尤其开头处，很多事情都是一开始就被吓到了，不敢去尝试，不敢去做，真的做起来不见得有多复杂，迈出第一步是最难的</p>
+</li>
+                    <li class="recent_comment_author">--李洛</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/duanxz/p/3623367.html">7. Re:JMeter使用jar进行压力测试</a></li>
+                    <li class="recent_comment_body"><p>你好  可否向您请教一个问题，，，我的项目也是一个mina框架的程序 ，，，应该怎么做压力测试</p>
+</li>
+                    <li class="recent_comment_author">--Lovis</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/duanxz/p/3510622.html">8. Re:RestTemplate实践（及遇到的问题）</a></li>
+                    <li class="recent_comment_body">楼主，关于你上面-》bean初始化+静态工具 线程安全的单例（懒汉模式） 基于jdk的spring的RestTemplate 这个代码里面我有个疑问，既然是静态方法返回RestTemplate的方法为...</li>
+                    <li class="recent_comment_author">--little-cookie</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/duanxz/p/5444805.html">9. Re:ThreadLocal的坑--ThreadLocal跨线程传递问题</a></li>
+                    <li class="recent_comment_body"><p>厉害</p>
+</li>
+                    <li class="recent_comment_author">--WQZ321123</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/duanxz/p/3792723.html">10. Re:powerdesigner中将表的name在生成建表sql时生成注释</a></li>
+                    <li class="recent_comment_body"><p>感谢！</p>
+</li>
+                    <li class="recent_comment_author">--Arebirth</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/duanxz/p/7552857.html">11. Re:服务链路追踪(Spring Cloud Sleuth)</a></li>
+                    <li class="recent_comment_body">标题 写的很详细 希望可以加油坚持...</li>
+                    <li class="recent_comment_author">--revres</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/duanxz/p/11837167.html">12. Re:sentry之一：sentry安装</a></li>
+                    <li class="recent_comment_body">@风情雪 我觉得是pull这个relay镜像失败，可能是这个仓库地址网速太慢，所以等待超时了，换一个docker镜像仓库试一下，比如DaoCloud的仓库。...</li>
+                    <li class="recent_comment_author">--leftoy</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/duanxz/p/11837167.html">13. Re:sentry之一：sentry安装</a></li>
+                    <li class="recent_comment_body">请教大佬为什么我执行这个 docker-compose up -d 命令 报这个错误ERROR: Get : net/http: request canceled while waiting for ...</li>
+                    <li class="recent_comment_author">--风情雪</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/duanxz/p/10364783.html">14. Re:Kong安装教程(v1.0.2)</a></li>
+                    <li class="recent_comment_body"><p>是不是要先安装ngnix</p>
+</li>
+                    <li class="recent_comment_author">--小贝007</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/duanxz/p/4967042.html">15. Re:java对象在内存中的结构（HotSpot虚拟机）</a></li>
+                    <li class="recent_comment_body">@Eric_余浩 jvm默认开启指针压缩，将类型指针压缩为4字节...</li>
+                    <li class="recent_comment_author">--tisss</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/duanxz/p/9155509.html">16. Re:Springboot配置使用ssl，使用https</a></li>
+                    <li class="recent_comment_body">你好，请问你这样搭https访问之后就能正常访问且不会出现证书问题了吗。 我最近也在研究这个，但我配置好之后访问本地， chrom浏览器出现：ERR_SSL_VERSION_OR_CIPHER_MIS...</li>
+                    <li class="recent_comment_author">--林、Zephyr</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/duanxz/p/8533174.html">17. Re:Java性能调优：利用JMC分析性能</a></li>
+                    <li class="recent_comment_body"><p>咱两的界面怎么基本不一样啊？只要概述是一样的</p>
+</li>
+                    <li class="recent_comment_author">--天亮前说晚安</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/duanxz/p/9203651.html">18. Re:redis实现对账(集合比较)功能</a></li>
+                    <li class="recent_comment_body">@house60 你这块redisClusterUtils是怎么弄的...</li>
+                    <li class="recent_comment_author">--X-K-L</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/duanxz/p/7552857.html">19. Re:服务链路追踪(Spring Cloud Sleuth)</a></li>
+                    <li class="recent_comment_body"><p>真是比较强大啊</p>
+</li>
+                    <li class="recent_comment_author">--小强找BUG</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/duanxz/p/7493276.html">20. Re:spring4.0之二：@Configuration的使用</a></li>
+                    <li class="recent_comment_body"><p>感谢楼主</p>
+</li>
+                    <li class="recent_comment_author">--月亮与六便士~</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/duanxz/p/5020398.html">21. Re:RocketMQ之六：RocketMQ消息存储</a></li>
+                    <li class="recent_comment_body"><h2 id="section">作者真的很有水平！！！</h2>
+</li>
+                    <li class="recent_comment_author">--JOJO0826</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/duanxz/p/3509432.html">22. Re:Dubbo架构设计详解</a></li>
+                    <li class="recent_comment_body">@努力奔跑91 是的，图放反了。...</li>
+                    <li class="recent_comment_author">--jiechangke</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/duanxz/archive/2012/11/06/2756362.html">23. Re:Spring的@PropertySource + Environment，@PropertySource（PropertySourcesPlaceholderConfigurer）+@Value配合使用</a></li>
+                    <li class="recent_comment_body"><p>实验了，不注入PropertySourcesPlaceholderConfigurer，也可以使用@Value。。<br>
+spring 版本5.2</p>
+</li>
+                    <li class="recent_comment_author">--花溪的小石头</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/duanxz/p/4967042.html">24. Re:java对象在内存中的结构（HotSpot虚拟机）</a></li>
+                    <li class="recent_comment_body">对象头（mark word + klass pointer ) 在我的 64bit 的机器上是占 8 + 4 = 12 byte， 请问这是和操作系统的位数有关的吗？...</li>
+                    <li class="recent_comment_author">--Eric_余浩</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/duanxz/p/6528161.html">25. Re:ES之五：ElasticSearch聚合</a></li>
+                    <li class="recent_comment_body"><p>博主，咨询个问题，max可以取聚合后分组中的最大值，如何我想取分组后第一条数据的字段值，请问该怎么取？</p>
+</li>
+                    <li class="recent_comment_author">--yzwang</li>
+        </ul>
+    </div>
+</div>
+</div>
+
+
+
+<!-- 阅读排行榜 -->
+<div id="sidebar_topviewedposts" class="sidebar-block">
+    
+<div id="topview_posts_wrap">
+    <h3 class="catListTitle">阅读排行榜</h3>
+    <div id="TopViewPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/duanxz/p/7493276.html">
+                            1. spring4.0之二：@Configuration的使用(269697)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/duanxz/p/3511695.html">
+                            2. java类中serialversionuid 作用 是什么?举个例子说明(104100)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/duanxz/archive/2012/08/24/2654361.html">
+                            3. JSONArray数据转换成java List(93608)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/duanxz/p/4520627.html">
+                            4. springboot中使用@Value读取配置文件(81613)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/duanxz/p/6528161.html">
+                            5. ES之五：ElasticSearch聚合(79105)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div>
+</div>
+
+<!-- 评论排行榜 -->
+<div id="sidebar_topcommentedposts" class="sidebar-block">
+    
+<div id="topfeedback_posts_wrap">
+    <h3 class="catListTitle">评论排行榜</h3>
+    <div id="TopFeedbackPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/duanxz/p/7493276.html">
+                            1. spring4.0之二：@Configuration的使用(17)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/duanxz/archive/2012/06/13/2547801.html">
+                            2. UML类图符号 各种关系说明以及举例(9)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/duanxz/p/9204367.html">
+                            3. 美的支付-对账系统实现(6)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/duanxz/p/5143227.html">
+                            4. mina框架详解(5)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/duanxz/p/3510622.html">
+                            5. RestTemplate实践（及遇到的问题）(5)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div>
+</div>
+
+<!-- 推荐排行榜 -->
+<div id="sidebar_topdiggedposts" class="sidebar-block">
+    
+<div id="topdigg_posts_wrap">
+    <div class="catListView">
+        <h3 class="catListTitle">推荐排行榜</h3>
+        <div id="TopDiggPostsBlock">
+            <ul style="word-break: break-all">
+                        <li>
+                            <a href="https://www.cnblogs.com/duanxz/p/7493276.html">
+                                1. spring4.0之二：@Configuration的使用(45)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/duanxz/archive/2012/06/13/2547801.html">
+                                2. UML类图符号 各种关系说明以及举例(23)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/duanxz/p/3511695.html">
+                                3. java类中serialversionuid 作用 是什么?举个例子说明(15)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/duanxz/p/5229352.html">
+                                4. CAP原则(CAP定理)、BASE理论(15)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/duanxz/p/7552857.html">
+                                5. 服务链路追踪(Spring Cloud Sleuth)(9)
+                            </a>
+                        </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</div></div>
+                    <script>loadBlogSideColumn();</script></div>
+	
+</div>
+<!--done-->
+<div class="footer">
+	Powered by: <a href="http://www.cnblogs.com/">博客园</a>
+	Copyright © 2020 duanxz
+<br><span id="poweredby">Powered by .NET Core on Kubernetes</span>
+
+</div>
+
+
+
+
+
+
+    
+
+
+</body></html>
