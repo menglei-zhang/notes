@@ -90,6 +90,56 @@ fs.writeFile('./06_a.txt','我今天赚了一块钱',{flag:'a'},(err)=>{
 # 其他功能
 # 扩展介绍
 
+## nodejs 同步异步
+js是单线程
+node 异步 如果不处理，会导致嵌套层级过深
+
+// 引入对象
+const path = require('path');
+const fs = require('fs');
+// 接收命令行参数 并修正路径
+let myPath = path.resolve(process.argv[2]);
+function testReadFiles(dir){
+    try{
+        // 判断文件是否存在
+        fs.accessSync(dir,fs.constants.F_OK);
+        // 判断文件的状态
+        let state = fs.statSync(dir);
+        if(state.isFile()){
+        }else if(state.isDirectory()){
+            console.log(dir);
+            // 读取文件夹中的内容
+            let files = fs.readdirSync(dir);
+            console.log(files);
+            // 遍历文件夹
+            files.forEach(file=>{
+                testReadFiles(path.join(dir,file));
+            })
+        }
+    }catch(e){
+        console.log(e);
+        console.log('该文件或者文件夹不存在');
+    }
+}
+testReadFiles(myPath);
+
+
+## 包（文件夹）
+
+## npm
+自己先有一个包描述文件（package.json）
+创建一个包描述文件 npm init [-y]
+    会根据当前的文件夹来自动生成包名（不允许中文，不允许大写英文字母）
+下载一个包 npm instail 包名@版本 --save  （npm i 包名 -S）
+    --save (记录依赖)
+根据package.json 文件中的dependencies属性恢复依赖
+    恢复包： npm instail  （npm i）
+卸载包 npm uninstail jquery@1.5.1 --save （npm un jquery@1.5.1 --S）
+查看包的信息   
+    npm info 包名      
+    npm info 包名 versions
+
+
 http  fs 同步请求，获取页面
 http  相应的json对象 配套前端ajax 请求
 
