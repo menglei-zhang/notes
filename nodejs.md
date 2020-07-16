@@ -60,7 +60,7 @@ node 对象
     全局对象：
         process
             process.env 是一个对象，我们可以通过其属性名来获取具体的环境变量值。
-            process.argv    获取命令行参数
+            process.argv    获取命令行参数 从0开始
         filename dirname
             __filename  文件
             __dirname   目录
@@ -138,6 +138,93 @@ testReadFiles(myPath);
 查看包的信息   
     npm info 包名      
     npm info 包名 versions
+安装(卸载)全局命令行工具
+    npm uninstail(uninstall) -g http-server
+查看全局包下载路径
+    npm root -g
+
+## nrm   nrm是npm的镜像资源管理工具
+安装npm install -g nrm    
+查看当前可选的镜像源  nrm ls
+切换镜像源  nrm use taobao
+添加私有源  nrm add name url
+
+## 包的加载机制
+我们未来可能需要辨识一个包中，入口是够是我们想要的启动程序
+逐级向上查找node_module,直到盘符根目录
+1、查找node_modules下的包名文件夹中的main属性（常用）
+2、比常用：查找node_modules下的包名.js
+3、查找node_modules下的包名文件中的index.js(常用)
+逐级向上 node_modules 要么main属性，要么index.js
+
+## http 核心模块
+http超传输协议  就是数据如何传输
+协议至少双方->http双方   ( 客户端(浏览器)->服务器BS  原生应用(QQ)->服务器CS )
+先有请求后又相应
+最重要两大特点：无连接（不为没有个请求保持住链接） /  无状态（服务器不记得客户端是谁）
+
+## 主体对象
+服务器对象 http.createServer();
+客户端对象 http.request({host:'www.baidu.com'});
+请求报文对象(对于服务器来说，是可读) req
+响应报文对象(对于服务器来说，是可写) res
+
+## 创建服务器对象
+1、引入http核心对象；
+2、利用http核心对象的createServer(callback);创建服务器对象；
+3、使用服务器对象.listen(端口,ip地址) 开启服务器；
+4、callback(req,res)根据请求处理响应；
+
+## 请求报文对象（只读）
+请求首行中的url  (req.url)
+请求首行中的请求方式  (req.method)
+请求头中的数据 req.headers 是一个对象
+头信息中，也可以作为与服务器交互的一种途径
+
+## 响应对象
+响应首行  res.writeHead(状态码)
+写响应头:一次性要在多次后面
+    一次性写头信息： res.writeHead(状态码)
+    多次设置头信息： res.setHeader(key,value);
+    res.setHeader('c','c') // 头
+    res.writeHead(200,{'content-type':'text/html;charset=utf-8'})   // 行
+写响应体:一次性要在多次后面
+    一次性写响应体：res.end();
+    多次写响应体: res.write();
+
+## 获取请求体数据
+代码对比
+浏览器  $('$xx').on('submit',function(e){ })
+服务器  req.on('data',function(d){ d.toString();})
+
+
+## querystring 核心对象
+querystring.parse(formStr)
+username=jack&password=123 转换成 {username:'jack',password:'123'}
+
+## 写会页面
+做一个简单地查询功能，查询后，页面跳转，显示查询结果
+数据关系是英雄名称
+请求方式为get请求
+
+### 跨域问题
+
+## 状态码分类
+1开头   正在进行中
+2开头   完成
+3开头   重定向
+4开头   客户端异常
+5开头   服务器异常
+
+### express 
+初始化 npm init -y
+安装 npm i express -S
+引入express第三方对象
+构建一个服务器对象  server.use
+开启服务器监听端口  server.listen
+处理响应
+在express中，保留了原生http的相关属性和函数
+
 
 
 http  fs 同步请求，获取页面
