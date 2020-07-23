@@ -270,6 +270,127 @@ $request = Request::instance();
 可以通过Request对象完成全局输入变量的检测、获取和安全过滤，支持包括$_GET、$_POST、$_REQUEST、$_SERVER、$_SESSION、$_COOKIE、$_ENV等系统变量，以及文件上传信息。
 
 
+## 系统变量输出
+普通的模板变量需要首先赋值后才能在模板中输出，但是系统变量则不需要，可以直接在模板中输出，系统变量的输出通常以 "{$Think"  打头，例如：
+{$Think.server.script_name} // 输出$_SERVER['SCRIPT_NAME']变量
+{$Think.session.user_id} 	// 输出$_SESSION['user_id']变量
+{$Think.get.pageNumber} 	// 输出$_GET['pageNumber']变量
+{$Think.cookie.name}  		// 输出$_COOKIE['name']变量
+支持输出 $_SERVER、$_ENV、 $_POST、 $_GET、 $_REQUEST、$_SESSION和 $_COOKIE变量。
+
+## 请求参数
+模板支持直接输出Request请求对象的方法参数，用法如下：$Request.方法名.参数
+{$Request.get.id}
+{$Request.param.name}
+以$Request.开头的变量输出会认为是系统Request请求对象的参数输出。
+
+支持Request类的大部分方法，但只支持方法的第一个参数。
+
+{$create_time|date="y-m-d",###}
+
+{$status? '正常' : '错误'}
+{$info['status']? $info['msg'] : $info['error']}
+{$info.status? $info.msg : $info.error }
+
+## 模板继承
+一个模板中可以定义任意多个名称标识不重复的区块，例如下面定义了一个base.html基础模板：
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{block name="title"}标题{/block}</title>
+</head>
+<body>
+{block name="menu"}菜单{/block}
+{block name="left"}左边分栏{/block}
+{block name="main"}主内容{/block}
+{block name="right"}右边分栏{/block}
+{block name="footer"}底部{/block}
+</body>
+</html>
+
+然后我们在子模板（其实是当前操作的入口模板）中使用继承：
+
+{extend name="base" /}
+{block name="title"}{$title}{/block}
+{block name="menu"}
+<a href="/" >首页</a>
+<a href="/info/" >资讯</a>
+<a href="/bbs/" >论坛</a>
+{/block}
+{block name="left"}{/block}
+{block name="main"}
+{volist name="list" id="vo"}
+<a href="/new/{$vo.id}">{$vo.title}</a><br/>
+ {$vo.content}
+{/volist}
+{/block}
+{block name="right"}
+ 最新资讯：
+{volist name="news" id="new"}
+<a href="/new/{$new.id}">{$new.title}</a><br/>
+{/volist}
+{/block}
+{block name="footer"}
+{__block__}
+ @ThinkPHP 版权所有
+{/block}
+
+### 内置标签
+## VOLIST标签
+	{volist name = 'list' id = 'vo'}
+		{$vo.name}
+	{/volist}
+
+	支持输出查询结果中的部分数据，例如输出其中的第5～15条记录
+	{volist name="list" id="vo" offset="5" length='10'}
+		{$vo.name}
+	{/volist}
+
+## FOREACH标签   foreach标签类似与volist标签，只是更加简单，没有太多额外的属性，最简单的用法是：
+	{foreach $list as $vo} 
+		{$vo.id}:{$vo.name}
+	{/foreach}
+	该用法解析后是最简洁的。
+
+	也可以使用下面的用法：
+
+	{foreach name="list" item="vo"}
+		{$vo.id}:{$vo.name}
+	{/foreach}
+	name表示数据源 item表示循环变量。
+
+	可以输出索引，如下：
+
+	{foreach name="list" item="vo" }
+		{$key}|{$vo}
+	{/foreach}
+	也可以定义索引的变量名
+
+	{foreach name="list" item="vo" key="k" }
+	{$k}|{$vo}
+	{/foreach}
+
+## FOR标签
+	{for start="开始值" end="结束值" comparison="" step="步进值" name="循环变量名" }
+	{/for}
+	开始值、结束值、步进值和循环变量都可以支持变量，开始值和结束值是必须，其他是可选。comparison 的默认值是lt，name的默认值是i，步进值的默认值是1，举例如下：
+
+	{for start="1" end="100"}
+	{$i}
+	{/for}
+	解析后的代码是
+
+	for ($i=1;$i<100;$i+=1){
+		echo $i;
+	} 
+
+## 比较标签
+	{eq name="name" value="value"}value{/eq}
+	
+
+
+
 
 
 	$data = input('input.');   // 一次传过来好多input表单值

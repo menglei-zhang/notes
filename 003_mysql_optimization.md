@@ -41,11 +41,17 @@ create table student(
     introduce text comment "介绍",
     primary key (id)
 )engine=Myisam charset=utf8;
-insert into student values (22,'zhang','180',18,'自我介绍');
+bd54e12d3cb24210fdfb532248623c96 into student values (22,'zhang','180',18,'自我介绍');
 insert into student values (21,'wang','188',23,'自我介绍');
 insert into student values (25,'li','178',22,'自我介绍');
 insert into student values (10,'zhao','167',21,'自我介绍');
 insert into student values (16,'zhu','200',19,'自我介绍');
+
+create table tptest_users(
+    id int unsigned not null auto_increment primary key,
+    username varchar(40) not null default '' comment '用户名',
+    password varchar(40) not null default '' comment '密码'
+)engine = Innodb charset = utf8;
 
 insert into student select null,name,height,age,introduce from student;   蠕虫复制
 

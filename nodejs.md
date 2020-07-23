@@ -225,6 +225,52 @@ username=jack&password=123 转换成 {username:'jack',password:'123'}
 处理响应
 在express中，保留了原生http的相关属性和函数
 
+const express = require('express');
+let server = express();
+// 获取路由中间件对象
+let router = express.Router();
+// 配置路由规则 router.请求方式(URL,fn)
+router.get('/login',(req,res) => {
+    res.end('login page');
+})
+router.get('/register',(req,res) => {
+    res.end('register page');
+})
+// 将router加入到应用 server.use(router)
+server.use(router);
+server.listen(8888,() => {
+    console.log('服务器启动端口8888...');
+})
+
+## res 扩展函数
+res.download('./xxx.txt')  // 下载文件
+res.json({})   // 响应json对象
+res.jsonp(数据)  // 配合jsonp 要求客户端请求的时候因为是jsonp方式 并且callback=xxx
+res.redirect()   // 重定向 301是永久重定向  302临时重定向
+res.send()  // 发送字符串数据自动加content-type
+res.sendFile()   // 显示一个文件
+res.sendStatus()  // 响应状态码
+
+const express = require('express');
+let server = express();
+let router = express.Router();
+router.get('/json',(req,res) => {
+   res.json([{name:'jack'}]); // res.end只能响应string  读文件中的data Buffer
+}).get('/redirect',(req,res) => {
+    res.redirect('https://www.baidu.com');
+}).get('/download',(req,res) => {
+    res.download('./app.js');
+}).get('/jsonp',(req,res) => {
+    res.jsonp('jack love rose');
+})
+server.use(router);
+server.listen(8888,()=>{
+    console.log('8888');
+})
+
+
+
+
 
 
 http  fs 同步请求，获取页面
