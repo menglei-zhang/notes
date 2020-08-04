@@ -129,6 +129,7 @@ create table student2(
 )engine=Memory charset=utf8;
 2、Archive 归档存储引擎，只支持数据的查询和写入，经常用于存储日志等相关信息。
 
+
 ### 字段选取  
 ## 数字占用空间小，查询速度快
 ## 选取占据空间小的字段    占用小，数据查询遍历就会快
@@ -648,6 +649,17 @@ mysql> select User,Password,Host from user;
 
 ## 增加用户实现远程操作工作
 # grant all[权限] on 数据库.数据表 to '用户名称'@'主机名或者ip地址' identified by '用户密码';
+grant select on *.* to 'zhu'@'%' identified by 'zhu.123' with grant option;
+grant delete on *.* to 'zhu'@'192.168.0.109' identified by 'zhu.123' with grant option;
+grant delete on *.* to 'chen'@'192.168.0.109' identified by 'chen.123' with grant option;
+grant delete on test.* to 'zhou'@'192.168.0.109' identified by 'zhou.123' with grant option;
+grant select on test.* to 'zhou'@'192.168.0.109' identified by 'zhou.123' with grant option;
+grant select on *.* to 'zhao'@'192.168.0.255' identified by 'zhao.123' with grant option;
+grant delete on *.* to 'wang'@'116.235.42.211' identified by 'wang.123' with grant option;
+grant select on *.* to 'zhang'@'%' identified by 'zhang.123' with grant option;
+grant drop on *.* to 'zhang'@'%' identified by 'zhang.123' with grant option;
+grant delete on *.* to 'zhang'@'%' identified by 'zhang.123' with grant option;
+grant insert on *.* to 'zhu'@'%' identified by 'zhu.123';
 mysql> grant all on *.* to 'zhang'@'%' identified by '123456';
 mysql库中的user表的host字段控制了ip的登录限制。
 真实业务中，是不允许root远程登录。使用其他用户进行操作。一般情况下，最好是一个业务使用一个用户和数据库。

@@ -445,4 +445,57 @@ $request = Request::instance();
 			dump($request->baseUrl()); 
 		} 
 	}
+	
+	
+	
+    file:model/Users.php
+    <?php
+        namespace app\admin\model;
+        use think\Model;
+        use app\admin\validate\Users as Vali;
+        class Users extends Model
+        {
+            public fucntion operation($data){
+                $validate = new Vali();
+                if(!$validate -> check($data)){
+                    return echoArr(0,$validate->getError());
+                }
+                // allowField : 过滤非数据表字段  ;   
+                $res = $this -> allowField(true) -> isUpdate(true) -> save($data);
+                if($res === false){
+                    return echoArr(0,$this->getError());
+                }else{
+                    return echoArr(1,'操作成功');
+                }
+            }
+        }
+        
+        $this->request->isAjax()
+        $data = input();
+        $data = input('post.');
+        $data = $this->request->post();
+        
+        数据验证
+        
+        controller
+        // 验证数据格式
+        $result = $this->validate($data, 'AdminUser.login');
+        if(true !== $result){
+            // 验证失败 输出错误信息
+            return $this->error($result, '', ['token' => $this->request->token()]);
+        }
+        
+        model
+        $validate = new Vali();
+        if(!$validate -> check($data)){
+            return echoArr(0,$validate->getError());
+        }
+        
+        $this->success('退出成功','index/index');
+        
+        
+        
+        
+    
+
 

@@ -16,8 +16,11 @@
     sudo /usr/local/mysql/support-files/mysql.server restart; // 重启MySQL服务
     MySQL退出 exit 或 quit
     /applications/mamp/library/bin/mysql -uroot -p
+    
+    第一步 ：终端界面下输入:sudo mysql.server start
+    第二步 ：启动mysql服务,启动成功后继续输入:mysql -u root -p
 
-mysql -> show global variables like 'port';  // 查看mysql端口
+    mysql -> show global variables like 'port';  // 查看mysql端口
 
 ## 登录MySQL数据库
 	打开命令台：mysql -hlocalhost -P3306 -uroot -p   //连接远程数据库服务器
@@ -116,7 +119,43 @@ mysql -> show global variables like 'port';  // 查看mysql端口
 ### 多表获取数据
     select * from table_name left join teble_name2 on table_name.id = table_name2.userid;
 ### 联表查询
-
+    #关联查询
+    #crud
+    select * from emp;
+# 笛卡尔积 两个集合的相乘 4 * 9 = 36;
+    select * from emp,dept;
+# 交叉连接、内连接、自连接、外连接
+# 交叉连接
+    select * from emp cross join dept;
+    # mysql方言
+    select * from emp cross join dept on emp.dept_id = dept.id;
+# 内连接 显 隐
+    #隐
+    select * from emp,dept where emp.dept_id = dept.id;
+    #显
+    select * from emp inner join dept on emp.dept_id = dept.id;
+# 自连接
+    select a.*,b.`name` from emp a,emp b where a.leader = b.id;
+    
+    select a.*,b.`name` from emp a inner join emp b on a.leader = b.id;
+# 外连接
+    #左外连接：左表为主表，右表为从表
+    #主表所有数据都显示，从表匹配数据才显示
+    select a.*,b.`name` from emp a left join emp b on a.leader = b.id;
+    #右外连接：右表为主表，左表为从表
+    #主表所有数据都显示，从表匹配数据才显示
+    select a.*,b.`name` from emp a RIGHT join emp b on a.leader = b.id;
+    #不同的表外连接
+    #右外连接：当sql比较复杂时，不易调换表的位置，视情况使用右外连接
+    select * from emp left join dept on emp.dept_id = dept.id;
+    select * from emp right join dept on emp.dept_id = dept.id;
+    #只查询不匹配的数据
+    select * from emp left join dept on emp.dept_id = dept.id
+    where dept.id is null;
+    
+    select * from emp right join dept on emp.dept_id = dept.id 
+    where emp.dept_id is null;
+    # on 和 where 的区别：on 两张表如何关联，where 表关联之后的筛选
 ### MySQL 事务
 	处理操作量大，复杂度高的数据。
 	比如说，在人员管理系统中，要删除一个人员，既需要删除人员的基本资料，也要删除和该人员相关的信息，如信箱，文章等等，这样，这些数据库操作语句就构成一个事务！

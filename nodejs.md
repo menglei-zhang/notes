@@ -50,7 +50,7 @@ http超文本传输协议：就是数据如何传输的
         无连接（不为每一个请求保持住链接）
         无状态（服务器不记得客户端是谁）-> cookie
     主体对象
-        服务器对象 http.createSErver();
+        服务器对象 http.createServer();
         客户端对象 http.request({host:'www.baidu.com});
         请求报文对象（对于服务器来说，是可读）req
         响应报文对象（对于服务器来说，是可写）res
@@ -62,7 +62,7 @@ node 对象
             process.env 是一个对象，我们可以通过其属性名来获取具体的环境变量值。
             process.argv    获取命令行参数 从0开始
         filename dirname
-            __filename  文件
+            __filename  文件   目录+文件名
             __dirname   目录
     核心对象：  
         path  const path = require('path');
@@ -128,7 +128,7 @@ testReadFiles(myPath);
 
 ## npm
 自己先有一个包描述文件（package.json）
-创建一个包描述文件 npm init [-y]
+创建一个包描述文件 npm init -y
     会根据当前的文件夹来自动生成包名（不允许中文，不允许大写英文字母）
 下载一个包 npm instail 包名@版本 --save  （npm i 包名 -S）
     --save (记录依赖)
