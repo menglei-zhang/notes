@@ -5,10 +5,10 @@
         define语法可以在分支结构中定义常量，const不允许的。
         define定义的常量可以自定义是否区分大小写。  define('PI',3.14,true);    true 表示不区分大小写
 
-0、0.0、null、’’、’0’、空数组		等效于布尔false的值
+0 、0.0 、null 、'' 、'0' 、空数组		等效于布尔false的值
 
 isset();		判断一个变量的值是否为null，如果是Null返回false
-empty()		判断一个变量的值是否为空
+empty()		    判断一个变量的值是否为空
 
 ===			同时判断变量的值与类型是否相同，如果相同返回true
 
@@ -132,7 +132,6 @@ while的标签语法
                 var_dump($count);
                 for ($i=0; $i < $count - 1; $i++) { 
                     for ($j=0; $j < $count - $i -1; $j++) {
-                        var_dump($i);
                         if($arr[$j] > $arr[$j+1]){
                             $tmp = $arr[$j];
                             $arr[$j] = $arr[$j+1];
@@ -148,7 +147,7 @@ while的标签语法
 
 文件载入
     include	在引入文件时，如果被引入的文件不存在则会报错，但程序还会继续向下执行。
-    require在引入文件时，如果被引入的文件不存在，则会上断程序的执行。
+    require在引入文件时，如果被引入的文件不存在，则会中断程序的执行。
 
     经验法则：
         require一般用于引入php文件。因为php里面一般书写的是功能性的代码。

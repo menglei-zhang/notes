@@ -266,6 +266,21 @@ redirect方法的参数用法和Url::build方法的用法一致（参考URL生�
 如果要获取当前的请求信息，可以使用\think\Request类，
 $request = Request::instance();
 
+$method = $request->method();   //获取上传方式
+$param = $request->param();     //获取所有参数，最全
+$get = $request->get();         //获取get上传的内容
+$post = $request->post();       // 获取post上传的内容
+$file = $request->file('file'); // 获取文件
+
+$header = Request::instance()->header();
+if (!isset($header['authorization']) || $header['authorization'] == 'null') {
+    echo json_encode([
+        'status' => 1002,
+        'msg' => 'Token无效']);
+    exit;
+}
+
+
 ## 输入变量
 可以通过Request对象完成全局输入变量的检测、获取和安全过滤，支持包括$_GET、$_POST、$_REQUEST、$_SERVER、$_SESSION、$_COOKIE、$_ENV等系统变量，以及文件上传信息。
 

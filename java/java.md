@@ -778,3 +778,143 @@ Student stu = new Student();
 
 
 ### API (Application Programming Interface)
+## Scanner      Scanner scan = new Scanner();
+## Random       Random ran = new Random();
+## ArrayList<>     集合   add get remove size
+ArrayList<String> list = new ArrayList<>();  
+list.add("张梦磊");
+String name = list.get(2);
+String name = list.remove(2);
+int size = list.size();
+集合也可以做方法参数  public static void printArray(ArrayList<String> list)
+集合作为参数和返回值  public static ArrayList<Integer> getSmall(ArrayList<Integer> bigList)
+基本类型------包装类
+byte---------Byte
+short--------Short
+int----------Integer  *
+long---------Long
+float--------Float
+double-------Double
+char---------Character  * 
+boolean------Boolean
+## String java.lang.String类代表字符串
+程序中的所有的双引号字符串，都是 String 类的对象（就算没有new也照样是）
+字符串的特点：
+1、字符串的内容用不可变，所以字符串是可以共享使用；
+2、字符串效果上相当于是char[]字符数组，但是底层原理是byte[]字节数组；
+
+创建字符串的常见3+1方法：
+1、public String();  // 创建一个空白字符串，不含任何内容；
+String str = new String();
+2、public String(char[] array)   // 根据字符数组的内容，来创建对应的字符串
+char[] charArray = {"A","B","C"};
+String str = new String(charArray);
+3、public String(byte[] array)   // 根据字节数组的内容，来创建对应的字符串
+byte[] byteArray = {"97","98","99"};
+String str = new String(byteArray);
+4、String str = "Hello";    // 右边直接用双引号   直接写上双引号，就是字符串对象；
+
+### Sting 常用的方法：
+## length          public int length()                 // 获取字符串当中含有的字符串个数，拿到字符串长度；
+str.length;  
+## concat          public String concat(String str)    // 将当前字符串和参数字符串拼接成为返回值的新的字符串；
+str1.concat(str2);
+## charAt          public char charAt(int index)       // 获取指定索引位置的单个字符(索引从0开始)；
+str.charAt(1);
+## indexOf         public int indexOf(String str)      // 查找参数字符串在本字符串当中首次出现的索引位置，如果没有，返回 -1；
+str.indexOf(str);
+## substring       public String substring(int index);    public String substring(int begin,int end);    // 字符串截取
+str.substring()
+## toCharArray()   public char[] toCharArray();        // 将当前字符串拆分成字符数组作为返回值；
+char[] chars = str.toCharArray();
+## getBytes()      public byte[] getBytes();           // 获得当前字符串底层的字节数组
+byte[] bytes = str1.getBytes();
+## replace         public String replace(CharSequence oldString ,CharSequence)   // 字符串替换
+str.replace();
+## split()            public String[] split(String regex) // 字符串分割，split方法其实是一个正则表达式。  . =>  \\.
+
+### static  静态变量，静态方法，静态代码  静态内容总是先入非静态
+如果没有static关键字，那么必须首先创建对象，然后通过对象才能使用；
+如果有了static关键字，那么不需要创建对象，直接就能通过类名称来使用它；
+静态变量，静态方法 推荐使用类名称进行调用。
+静态变量:类名称.静态变量
+静态方法:类名称.静态方法()
+
+注意事项：
+静态不能直接访问费静态；因为在内存中，先有静态内容，后有非静态内容；
+静态方法当中不能用this：this代表当前对象，通过谁调用的方法，谁就是当前对象；
+
+静态代码块的格式是：
+public class 类名称{
+    static{
+        // 静态代码块的内容
+    }
+}
+当第一次用到本类时，静态代码块执行唯一的一次
+静态内容总是优先于非静态，所以静态代码块比构造方法先执行。
+
+静态代码块的典型用途：用来一次性的对静态成员变量进行赋值；
+
+### arrays
+toString(数组)    public static String toString(数组)  数组->字符串
+String intStr = Arrays.toString(intArray)       
+sort(数组)    public static void sort(数组)      数组升序排列
+
+### Math
+Math.abs();     绝对值
+Math.ceil();    向上取整
+Math.floor();   向下取整
+Math.round();   四舍五入
+Math.PI         圆周率
+
+boolean equals(Object obj) 指示其他某个对象是否与此对象"相等"
+equals 方法源码
+    public boolean equals(Object obj){
+        return(this == obj)
+    }
+boolean b = p1.equals(p2);
+System.out.println(b);
+
+## 异常
+java.lang.Throwable:类是Java 语言中所有错误或者异常的超类。
+    Exception:编译期异常，进行编译（写代码）Java程序出现问题
+        RuntimeException：运行期异常，Java程序运行过程中出现的问题
+        异常就相当于程序的了一个毛病，把异常处理掉，程序就可以继续执行。
+    Error：错误
+        错误就相当于程序得了一个无法治愈的毛病，必须修改源代码。
+
+public class DemoException {
+    public static void main(String[] args) /* throws ParseException*/ {
+//        SimpleDateFormat sdf = new SimpleDateFormat(); // 用来格式化日期
+//        Date date = null;
+//        try {
+//            date = sdf.parse("1992-06-21");
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println(date);
+
+//        int[] arr = {1,2,3};
+//        try{
+//            System.out.println(arr[3]);
+//        }catch(Exception e){
+//            System.out.println(e);
+//        }
+
+//        int[] arr = new int[1024*1024*1024];
+
+//        System.out.println("后续代码");
+    }
+}
+
+
+### 序列化 和 反序列化
+## Java序列化  对象序列化  对象 => 字节序列(包括 对象的数据、有关对象类型的信息 以及 对象数据的类型)
+## 序列化 => 字节序列 => 写入文件 => 从文件提取 => 反序列化
+Java 提供了一种 对象序列化的机制，该机制中，一个对象可以被表示为一个字节序列，该字节序列包括该对象的数据、有关对象的类型的信息和存储在对象中数据的类型。
+将序列化对象写入文件之后，可以从文件中读取出来，并且对它进行反序列化，也就是说，对象的类型信息、对象的数据，还有对象中的数据类型可以用来在内存中新建对象。
+
+序列化 整个过程 都是 Java虚拟机(JVM) 独立的，也就是说，在一个平台上序列化的对象可以在另一个完全不同的平台上反序列化该对象
+
+类 ObjectInputStream 和 ObjectOutputStream 是高层次的数据流，它们包含反序列化和序列化对象的方法。
+

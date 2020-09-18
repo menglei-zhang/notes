@@ -41,3 +41,15 @@ git remote -v
 git remote rm origin
 git remote add origin https://github.com/menglei-zhang/test.git
 git push -u origin master
+
+
+.gitignore
+node_modules
+.idea
+.vscode
+.git
+
+
+README.md
+// 项目说明
+
