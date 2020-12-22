@@ -1,28 +1,20 @@
-vue init webpack vue-test
+## vue init webpack my-project  // 安装vue包
 
-var vm = new Vue({
+var vm =  new Vue({
     el: '',
-    data: {
-
-    },
-    methods: {
-
-    },
-    created: {
-
-    }
+    data: {},
+    methods: {},
+    created: {}
 })
 
 ### API
-# split() 方法用于把一个字符串分割成字符串数组。
-# reverse() 方法用于颠倒数组中元素的顺序。
-# join() 方法用于把数组中的所有元素放入一个字符串。
-# substring(0,1)   // 字符串截取，从第0个开始，截取1个；
-message.split('').reverse().join('')
-# array.push()
+split()  // 把一个字符串分割成字符串数组。
+reverse() // 颠倒数组中元素的顺序。
+join()  // 把数组中的所有元素放入一个字符串。
+substring(0,1)   // 字符串截取，从第0个开始，截取1个；    message.split('').reverse().join('')
+array.push()
 
-
-### Vue.js（读音 /vjuː/, 类似于 view） 是一套 构建 用户界面 的渐进式框架。
+### Vue.js 是一套 构建 用户界面 的渐进式框架。
 ### Vue 只关注 视图层， 采用自底向上增量开发的设计。
 ### Vue 的目标是通过尽可能简单的 API 实现响应的数据绑定和组合的视图组件。
 ### Vue.js 模板语法  
@@ -42,7 +34,8 @@ Vue.js 的核心是一个允许你采用简洁的模板语法来声明式的将�
     })
 </script>
  
-Vue.js 目录结构
+## Vue.js 目录结构
+
 目录/文件	    说明
 build	        项目构建(webpack)相关代码
 config	        配置目录，包括端口号等。我们初学可以使用默认的。
@@ -642,61 +635,72 @@ v-show
 
 
 
-### sessionStorage  getItem  setItem  removeItem  clear
-sessionStorage.key(int index) //返回当前 sessionStorage 对象的第index序号的key名称。若没有返回null。
-sessionStorage.getItem(string key) //返回键名(key)对应的值(value)。若没有返回null。
-sessionStorage.setItem(string key, string value) //该方法接受一个键名(key)和值(value)作为参数，将键值对添加到存储中；如果键名存在，则更新其对应的值。
-sessionStorage.removeItem(string key) //将指定的键名(key)从 sessionStorage 对象中移除。
-sessionStorage.clear() //清除 sessionStorage 对象所有的项。
+### sessionStorage  (getItem/setItem/removeItem/clear)
+    sessionStorage.key(int index)                       // 返回当前 sessionStorage 对象的第index序号的key名称。若没有返回null。
+    sessionStorage.getItem(string key)                  // 返回键名(key)对应的值(value)。若没有返回null。
+    sessionStorage.setItem(string key, string value)    // 该方法接受一个键名(key)和值(value)作为参数，将键值对添加到存储中；如果键名存在，则更新其对应的值。
+    sessionStorage.removeItem(string key)               // 将指定的键名(key)从 sessionStorage 对象中移除。
+    sessionStorage.clear()                              // 清除 sessionStorage 对象所有的项。
 
 ### QS
-
-方法一：将对象序列化，多个对象之间用 & 拼接（拼接是有底层处理，无需手动操作）
-qs.stringfy()  转换成查询字符串
-let comments = {content: this.inputValue}
-let comValue = qs.stringify(comments)
-方法二：将序列化的内容拆分成一个个单一的对象
-qs.parse()   转换成json对象
+    方法一：将对象序列化，多个对象之间用 & 拼接（拼接是有底层处理，无需手动操作）
+    qs.stringfy()  转换成查询字符串
+    let comments = {content: this.inputValue}
+    let comValue = qs.stringify(comments)
+    方法二：将序列化的内容拆分成一个个单一的对象
+    qs.parse()   转换成json对象
 
 ### axios  get  post
 ## get
-axios.get('url',{       // 参数还可以直接拼接在URL后面
-    params: {
-        title: '眼镜'
-    }
-}).then(function(res){
-    this.goodsList = res.data;
-}).catch(function(error){
-    console.log(error);
-})
-## post
-axios.post('url',{
-    firstName: 'zhang',
-    lastName: 'san'
-}).then(function(res){
-    console.log(res)
-}).catch(function(err){
-    console.log(error)
-})
-## post 参数是对象
-var params = new URLSearchParams();
-params.append('title','眼镜');
-params.append('id',1);
-axios.post('url',params).then(function(res){
-
-}).catch(function(error){
-    
-})
-## all
-function getUserAccout(){
-    return axios.get('url');
-}
-function getUserPermissions(){
-    return axios.get('url');
-}
-axios.all([getuserAccount(), getUserPermissions()])
-    .then(axios.spread(function(axxt, perms){
-        // 两个请求现已完成
+    axios.get('url',{       // 参数还可以直接拼接在URL后面
+        params: {
+            title: '眼镜'
+        }
+    }).then(function(res){
+        this.goodsList = res.data;
+    }).catch(function(error){
+        console.log(error);
     })
-);
+## post
+    axios.post('url',{
+        firstName: 'zhang',
+        lastName: 'san'
+    }).then(function(res){
+        console.log(res)
+    }).catch(function(err){
+        console.log(error)
+    })
+## post 参数是对象
+    var params = new URLSearchParams();
+    params.append('title','眼镜');
+    params.append('id',1);
+    axios.post('url',params).then(function(res){
+
+    }).catch( (error){
+        
+    })
+## all
+    function getUserAccout(){
+        return axios.get('url');
+    }
+    function getUserPermissions(){
+        return axios.get('url');
+    }
+    axios.all([getuserAccount(), getUserPermissions()])
+        .then(axios.spread(function(axxt, perms){
+            // 两个请求现已完成
+        })
+    );
+
+
+#### Vuex 是一个专门为 vue.js 应用程序开发的 状态管理模式
+
+每一个vuex 的应用核心就是store(仓库) 
+store基本上就是一个仓库，包含着应用的大部分状态
+
+vuex 和 单纯的全局对象有以下两点不同：
+1、Vuex的存贮是响应式的；
+2、不能直接改变store中的状态；
+
+
 
