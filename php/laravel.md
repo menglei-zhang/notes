@@ -1,16 +1,27 @@
+```
 sudo apachectl -k start
 sudo apachectl -k restart
 sudo apachectl -k stop
+```
 
+```
 find storage -type d -exec chmod 777 {} \;
 find storage -type f -exec chmod 777 {} \;
+```
 
+```
 sudo /usr/local/mysql/support-files/mysql.server start;
 sudo /usr/local/mysql/support-files/mysql.server stop;
 sudo /usr/local/mysql/support-files/mysql.server restart;
+```
+
+创建项目： 
+
+```
+composer create-project --prefer-dist laravel/laravel blog
+```
 
 
-创建项目： composer create-project --prefer-dist laravel/laravel blog
 
 #### laravel 是一个 强规范约束 的框架，强制使用大量 预定义结构 来确保应用结构
 
@@ -37,7 +48,7 @@ sudo /usr/local/mysql/support-files/mysql.server restart;
 
     Laravel 应用的所有请求入口都是 public/index.php 文件。
     这里是加载框架其它部分的起点。
-
+    
     HTTP / Console  内核   作为所有请求都要通过的位置；
 
 
@@ -53,31 +64,31 @@ laravel的服务容器是一个用于管理类依赖以及注入依赖的强有�
 
 
 
-### 路由器 将用户的请求转发给相应的程序去处理  请求类型get,put,post,patch,delete等
+### 路由器 
 
+将用户的请求转发给相应的程序去处理  请求类型get,put,post,patch,delete等
+
+```
 tp: shop.com/index.php/模块/控制器/方法
-
 laravel: shop.com/user/show
-
 Route::get("user/show","UserController@show");
-
 Route::get("/",function(){
     return view("welcome");
 })
+```
 
 
-## 基础路由  laravel框架将请求传递给laravel路由器，该路由器将请求内容映射给应用中适当的控制器；
-# Route::get()
-# Route::post()
-# Route::put()
-# Route::delete()
-# Route::any()
-# Route::match()
-# 正则限制  Route::get()->where(['id'=>'\d+','name'=>"[a-zA-Z]+"]);   ->where('id','[0-9]+')  ->where('name'=>"[a-zA-Z]+")
+
+## 基础路由
+
+laravel框架将请求传递给laravel路由器，该路由器将请求内容映射给应用中适当的控制器；
+
+    Route::get()/post()/put()/delete()/any()/match()
+    正则限制  Route::get()->where(['id'=>'\d+','name'=>"[a-zA-Z]+"]);   ->where('id','[0-9]+')  ->where('name'=>"[a-zA-Z]+")
 ## 多请求路由
-Route::match(["get","post"],"user/register",function(){
-    return "register";
-})
+    Route::match(["get","post"],"user/register",function(){
+        return "register";
+    })
 ## Route::match();
     Route::match(['get','post'],'user/register',function(){
         return "register";
@@ -91,21 +102,18 @@ Route::match(["get","post"],"user/register",function(){
         return "user_show_".$id."_".$name;
     });
 ## 正则限制
-Route::get("user/{id}/{name}",function ($id,$name){
-    return "user_".$id."_".$name;
-})->where(['id'=>'\d+','name'=>"[a-zA-Z]+"]);
+    Route::get("user/{id}/{name}",function ($id,$name){
+        return "user_".$id."_".$name;
+    })->where(['id'=>'\d+','name'=>"[a-zA-Z]+"]);
 
 ### 控制器 namespace App\Http\Controllers;
-驼峰：首字母大写
+    驼峰：首字母大写
 
 php artisan make:controller UserController
 php artisan make:controller Home/IndexController
 
-
 Route::get("user/show","UserController@show");
 Route::get("user/show","Admin\UserController@show");
-
-
 
 $cname = $request -> input('data.cname');
 $cname = $request -> input('cname');
@@ -311,24 +319,17 @@ Laravel 使用 Symfony HTTP Message Bridge 组件将典型的 Laravel 请求和�
 
 ## 获取输入
 
-$input = $request->all();    // all 方法来获取 array 类型的全部输入数据
+$input = $request->all();                       // all 方法来获取 array 类型的全部输入数据
 
-$input = $request->input();    // input 方法来获取全部输入的关联数组：
-
+$input = $request->input();                     // input 方法来获取全部输入的关联数组：
 $name = $request->input('name');
-
-$name = $request->input('name', 'Sally');  // 第二个参数传入一个默认值。这个值将会在当前请求不包含所需要的字段时返回
-
-$name = $request->input('products.0.name');  // 当处理包含数组的表单时，可以使用 「.」 运算符来访问数组的数据
-
-$names = $request->input('products.*.name');  // 当处理包含数组的表单时，可以使用 「.」 运算符来访问数组的数据
+$name = $request->input('name', 'Sally');       // 第二个参数传入一个默认值。这个值将会在当前请求不包含所需要的字段时返回
+$name = $request->input('products.0.name');     // 当处理包含数组的表单时，可以使用 「.」 运算符来访问数组的数据
+$names = $request->input('products.*.name');    // 当处理包含数组的表单时，可以使用 「.」 运算符来访问数组的数据
 
 $query = $request->query();
-
 $query = $request->query("name");
-
 $query = $request->query("name","Helen");
-
 $name = $request->name;  // 通过动态属性获取输入
 
 $input = $request->only('username', 'password');
@@ -348,12 +349,10 @@ if ($request->hasAny(['name', 'email'])) {
 }
 
 ## 将输入数据闪存到 Session
+
 Illuminate\Http\Request 类的 flash 方法可以把当前的输入闪存到 session，因此在用户向应用发起的下一次请求时它们仍然可用：
-
 $request->flash();
-
 $request->flashOnly(['username', 'email']);
-
 $request->flashExcept('password');
 
 ## 闪存数据并跳转
@@ -1411,7 +1410,7 @@ Switch 语句可以使用 @switch, @case, @break, @default 和 @endswitch 指令
     @case(2)
         Second case...
         @break
-
+    
     @default
         Default case...
 @endswitch
@@ -1577,3 +1576,110 @@ vendor:publish       Publish any publishable assets from vendor packages
 ## view
 view:cache           Compile all of the application's Blade templates
 view:clear           Clear all compiled view files
+
+
+
+
+
+
+
+## 路由
+
+### 基本路由
+
+所有的 Laravel 路由都在 routes 目录中定义，这些文件都由框架自动加载。routes/web.php 文件用于定义 web 界面的路由。这里面的路由会被分配给 web 中间件组，它提供了会话状态和 CSRF 保护等功能。 定义在 routes/api.php 中的路由都是无状态的，并且被分配了 api 中间件组。
+
+```php
+Router::get('foo', function() {
+	return 'Hello World!';
+})
+```
+
+```php
+Router::match(['get', 'post'], '/', function() {
+	return 'Hello World!';
+})
+
+Router::any('/', function() {
+  return 'Hello World!';
+})
+```
+
+#### CSRF 保护
+
+指向 `web` 路由文件中定义的 `POST`，`PUT`， `PATCH`， 或 `DELETE` 路由的任何 HTML 表单都应该包含一个 CSRF 令牌字段，否则，这个请求将会被拒绝。
+
+```html
+<form method="POST" action="/profile">
+	@csrf
+	...
+</form>
+```
+
+#### 重定向路由
+
+```php
+Router::redirect('/here', '/there');
+```
+
+#### 路由参数
+
+路由参数会按路由定义的顺序依次注入到路由回调或者控制器中，而不受回调或者控制器的参数名称的影响。
+
+##### 必填参数
+
+```php
+Route::get('posts/{post}/comments/{comment}', function ($postId, $commentId) {
+    //
+});
+```
+
+##### 可选参数
+
+```php
+Route::get('user/{name?}', function ($name = null) {
+    return $name;
+});
+
+Route::get('user/{name?}', function ($name = 'John') {
+    return $name;
+});
+```
+
+
+
+
+
+## 中间件
+
+```
+make artisan make:middleware checkAge
+```
+
+```php
+public function handle($request, Closure $next)
+{
+    if ($request->age <= 200) {
+        return redirect('home');
+    }
+
+    return $next($request);
+}
+```
+
+### 控制器
+
+```
+php artisan make:controller ShowProfile
+```
+
+#### 单行为控制器
+
+```php
+如果你想要定义一个只处理单个行为的控制器，你可以在控制器中放置一个 `__invoke` 方法；
+php artisan make:controller ShowProfile --invokable
+当注册单个行为控制器的路由时不需要指名方法： Route::get('user/{id}', ShowProfile::class);
+```
+
+#### 控制器中间件
+

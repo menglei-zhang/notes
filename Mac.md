@@ -1,43 +1,47 @@
-### 录屏 control + command + R
+### 录屏/截图
+
+```
+control + command + R
+control + command + 3		// 截图（全屏）
+control + command + 4		// 截图
+control + command + 5		// 录屏
+```
 
 ### 显示隐藏文件
+```
 defaults write com.apple.finder AppleShowAllFiles -boolean true;killall Finder  // 显示
 defaults write com.apple.finder AppleShowAllFiles -boolean false;killall Finder  // 隐藏
+```
+
+### Nginx
+```
+sudo brew services start nginx
+sudo brew services stop nginx
+```
 
 ### Apache
+```
 sudo apachectl -k stop
 sudo apachectl -k start
+sudo apachectl start
+sudo apachectl restart
+sudo apachectl stop
+```
 
-## 开启:  sudo apachectl start
+### 修改本机hosts
 
-## 重启:  sudo apachectl restart
-
-## 关闭:  sudo apachectl stop
-
-### 查看/修改 hosts
+```
 open /private/etc/hosts
-sudo vi /private/etc/hosts
+sudo vim /private/etc/hosts
+```
 
-### mac 为什么每次都要source ~/.bash_profile 环境变量才能生效
+### 环境变量
+
+```
+source ~/.bash_profile 环境变量才能生效
 在终端输入：
-## ① vi ~/.zshrc
-## ② source ~/.bash_profile
-
-### mac下添加全局变量
-## cd ~/
-## touch .bash_profile
-## open .bash_profile
-
-vim ~/.bash_profile  // 配置环境变量
-
-### 列出文件"ls"
-    ls -w  // 显示中文名
-    ls -l  // 详细信息
-    ls -a  // 包含隐藏文件
-
-### 建立新目录  mkdir
-
-### 拷贝文件   cp 参数 源文件 目标文件
+① vi ~/.zshrc
+② source ~/.bash_profile
 
 环境变量
 第一步 ：在终端切换到根目录，编辑./.bash_profile文件
@@ -47,56 +51,73 @@ $ vim ./.bash_profile
 export PATH=$PATH:/usr/local/mysql/bin
 export PATH=$PATH:/usr/local/mysql/support-files
 第三步 ：按下esc 退出 insert 模式，输入:wq保存配置文件。
-:wq
 第四步 ：在终端界面下输入以下命令，让配置文件的修改生效，并查看环境变量是否设置成功
-$ source ~/.bash_profile 
+$ source ~/.bash_profile
 $ echo $PATH
+```
 
-### mac 终端 常用命令
-1、列出文件
-    ls -w  // 显示中文名
-    ls -l  // 详细信息
-    ls -a  // 包含隐藏文件
-2、转换目录  cd
-3、建立新目录   mkdir /User/用户名/Desktop/backup
+### 查找文件路径 
+
+```
+mdfind -name 文件名     例:mdfind -name "hello.txt"
+mdfind "文本内容"    		例:mdfind 'hello i am fine'
+```
+
+### 新建文件
+     touch 文件名+.txt   例: touch hello.txt		// 新建文本文件
+     mkdir 文件名				例: mkdir test					// 创建目录
+     mkdir /User/用户名/Desktop/backup
+
+### 列出文件"ls"
+    ls -w  		// 显示中文名
+    ls -l  		// 详细信息
+    ls -a  		// 包含隐藏文件
+
+### 目录操作
+
+```
+1、建立新目录  mkdir dirname   
+	mkdir /User/用户名/Desktop/backup
+2、删除文件    rm 参数 文件   
+  删除驱动的缓存  
+  rm -rf /System/Library/Extensions.kextcache     
+  rm -rf /System/Library/Extensions.mkext
+  参数－rf 表示递归和强制，千万要小心使用，如果执行了 rm -rf / 你的系统就全没了
+3、移动文件    mv 文件
+    把AppleHDA.Kext 移到桌面    
+    mv /System/Library/Extensions/AppleHDA.kext /User/用户名/Desktop
+    把AppleHDA.Kext 移到备份目录中  
+    mv /System/Library/Extensions/AppleHDA.kext /System/Library/Extensions/backup
 4、拷贝文件
     cp 参数 源文件 目标文件
     想把桌面的Natit.kext 拷贝到驱动目录中  cp -R /User/用户名/Desktop/Natit.kext /System/Library/Extensions
     参数R表示对目录进行递归操作，kext在图形界面下看起来是个文件，实际上是个文件夹。
     把驱动目录下的所有文件备份到桌面backup  cp -R /System/Library/Extensions/* /User/用户名/Desktop/backup
-5、删除文件    rm 参数 文件   
-    删除驱动的缓存  rm -rf /System/Library/Extensions.kextcache     rm -rf /System/Library/Extensions.mkext
-    参数－rf 表示递归和强制，千万要小心使用，如果执行了 rm -rf / 你的系统就全没了
-6、移动文件    mv 文件
-    把AppleHDA.Kext 移到桌面    mv /System/Library/Extensions/AppleHDA.kext /User/用户名/Desktop
-    把AppleHDA.Kext 移到备份目录中   mv /System/Library/Extensions/AppleHDA.kext /System/Library/Extensions/backup
-7、文本编辑    ano 文件名
+ 5、文本编辑    nano 文件名
     编辑natit Info.plist     nano /System/Library/Extensions/Natit.kext/Info.plist
+```
 
- 
-## 目录操作
+### 查看路径
 
-命令名                 功能描述                            使用举例
-mkdir               创建一个目录                       mkdir dirname
-rmdir               删除一个目录                       rmdir dirname
-mvdir               移动或重命名一个目录                 mvdir dir1 dir2
-cd                  改变当前目录                       cd dirname
-pwd                 显示当前目录的路径名                 pwd
-ls                  显示当前目录的内容                  ls -la
+```
+pwd	显示当前目录的路径名
+```
 
 ## 文件操作
 
-命令名                 功能描述                            使用举例
+```
 cat                显示或连接文件                       cat filename
 od                 显示非文本文件的内容                  od -c filename
 cp                 复制文件或目录                       cp file1 file2
 rm                 删除文件或目录                       rm filename
 mv                 改变文件名或所在目录                  mv file1 file2
 find               使用匹配表达式查找文件                find . -name "*.c" -print
-file                显示文件类型                       file filename
+file               显示文件类型                        file filename
+```
 
 ## 选择操作
 
+```
 命令名                 功能描述                             使用举例
 head              显示文件的最初几行                     head -20 filename
 tail              显示文件的最后几行                     tail -15 filename
@@ -108,43 +129,63 @@ uniq              去掉文件中的重复行                      uniq file1 fi
 comm              显示两有序文件的公共和非公共行            comm file1 file2
 wc                统计文件的字符数、词数和行数             wc filename
 nl                给文件加上行号                         nl file1 >file2
+```
 
-## 进程操作
 
-命令名                  功能描述                            使用举例
-ps                显示进程当前状态                            ps u
-kill              终止进程                              kill -9 30142
+
+### 进程操作
+
+
+
+| 命令名 |     功能描述     |   使用举例    |
+| :----: | :--------------: | :-----------: |
+|   ps   | 显示进程当前状态 |     ps u      |
+|  kill  |     终止进程     | kill -9 30142 |
+
+
 
 ## 时间操作
 
-命令名                  功能描述                            使用举例
-date              显示系统的当前日期和时间                     date
-cal                    显示日历                           cal 8 1996
-time              统计程序的执行时间                        time a.out
+| 命令名 |         功能描述         |  使用举例  |
+| :----: | :----------------------: | :--------: |
+|  date  | 显示系统的当前日期和时间 |    date    |
+|  cal   |         显示日历         | cal 8 1996 |
+|  time  |     统计程序的执行时     | time a.out |
+
+
 
 ## 网络与通信操作
 
-命令名                   功能描述                                使用举例
-telnet                  远程登录                      telnet hpc.sp.net.edu.cn
-rlogin                  远程登录                      rlogin hostname -l username
-rsh                在远程主机执行指定命令                      rsh f01n03 date
-ftp                在本地主机与远程主机之间传输文件            ftpftp.sp.net.edu.cn
-rcp                在本地主机与远程主机 之间复制文件           rcp file1 host1:file2
-ping               给一个网络主机发送 回应请求               ping hpc.sp.net.edu.cn
-mail               阅读和发送电子邮件                              mail
-write              给另一用户发送报文                        write username pts/1
-mesg               允许或拒绝接收报文                              mesg n
+| 命令名 |             功能描述              |          使用举例           |
+| :----: | :-------------------------------: | :-------------------------: |
+| telnet |             远程登录              |  telnet hpc.sp.net.edu.cn   |
+| rlogin |             远程登录              | rlogin hostname -l username |
+|  rsh   |      在远程主机执行指定命令       |       rsh f01n03 date       |
+|  ftp   | 在本地主机与远程主机之间传输文件  |    ftpftp.sp.net.edu.cn     |
+|  rcp   | 在本地主机与远程主机 之间复制文件 |    rcp file1 host1:file2    |
+|  ping  |    给一个网络主机发送 回应请求    |   ping hpc.sp.net.edu.cn    |
+|  mail  |        阅读和发送电子邮件         |            mail             |
+| write  |        给另一用户发送报文         |    write username pts/1     |
+|  mesg  |        允许或拒绝接收报文         |           mesg n            |
+
+
+​                        
 
 ## Korn Shell 命令              
 
+```
  命令名                   功能描述                                使用举例
 history         列出最近执行过的 几条命令及编号                     history
 r                重复执行最近执行过的 某条命令                        r -2
 alias                 给某个命令定义别名                      alias del=rm -i
 unalias               取消对某个别名的定义                      unalias del
+```
+
+
 
 ## 其它命令
 
+```
 命令名                    功能描述                                 使用举例
 uname               显示操作系统的有关信息                          uname -a
 clear                 清除屏幕或窗口内容                             clear
@@ -156,6 +197,7 @@ stty                 显示或重置控制键定义                           st
 du                     查询磁盘使用情况                         du -k subdir
 df /tmp          显示文件系统的总空间和可用空间
 w                显示当前系统活动的总信息
+```
 
  
 

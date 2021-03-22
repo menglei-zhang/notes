@@ -2,17 +2,25 @@ SpringCloud五大组件详解    https://blog.csdn.net/weixin_40910372/article/d
 Spring Cloud系列--Feign整合(一)      https://www.jianshu.com/p/75178737ce91
 https://www.runoob.com/java/java-loop.html
 
+## Java
 
-### Java 是 一种计算机编程语言
-### Java 作为一种面向对象语言；
+```
+一种计算机编程语言
+一种面向对象语言；
+一个 Java 程序可以认为是一系列对象的集合，而这些对象通过调用彼此的方法来协同工作。
 
-### 一个 Java 程序可以认为是一系列对象的集合，而这些对象通过调用彼此的方法来协同工作。
-    对象：对象是类的一个实例，有状态和行为。例如，一条狗是一个对象，它的状态有：颜色、名字、品种；行为有：摇尾巴、叫、吃等。
-    类：类是一个模板，它描述一类对象的行为和状态。
-    方法：方法就是行为，一个类可以有很多方法。逻辑运算、数据修改以及所有动作都是在方法中完成的。
-    实例变量：每个对象都有独特的实例变量，对象的状态由这些实例变量的值决定。
+对象：对象是类的一个实例; 有状态和行为。例如，一条狗是一个对象，它的状态有：颜色、名字、品种；行为有：摇尾巴、叫、吃等。
+类：类是一个模板，它描述一类对象的行为和状态。
+方法：方法就是行为，一个类可以有很多方法。逻辑运算、数据修改以及所有动作都是在方法中完成的。
+实例变量：每个对象都有独特的实例变量，对象的状态由这些实例变量的值决定。
 
-### 编写 Java 程序时，应注意以下几点：
+Java 跨平台性 （不区分操作系统化）  核心是 JVM(虚拟机)
+JVM Java虚拟机 Java代码都在JVM上运行
+JRE Java程序的运行环境，包含JVM 和 运行时所需的核心类库     只能运行不能开发Java
+JDK Java程序的开发工具包，包含JRE 和 开发人员使用的工具     既能运行又能开发Java
+```
+
+###  Java 注意事项：
     大小写敏感；
     类名：大驼峰（首字母大写）例如 MyFirstJavaClass；
     方法名：小驼峰（首字母小写）；
@@ -24,66 +32,67 @@ https://www.runoob.com/java/java-loop.html
         一个源文件中只能有一个 public 类；
         一个源文件可以有多个非 public 类；
         源文件的名称应该和 public 类的类名保持一致；
-
+    
     如果一个类定义在某个包中，那么 package 语句应该在源文件的首行。
     如果源文件包含 import 语句，那么应该放在 package 语句和类定义之间。如果没有 package 语句，那么 import 语句应该在源文件中最前面。
     import 语句和 package 语句对源文件中定义的所有类都有效。在同一源文件中，不能给不同的类不同的包声明。
     类有若干种访问级别，并且类也分不同的类型：抽象类和 final 类等。这些将在访问控制章节介绍。
-
+    
     除了上面提到的几种类型，Java 还有一些特殊的类，如：内部类、匿名类。
 
 ### Java 包
     包主要用来对类和接口进行分类。当开发 Java 程序时，可能编写成百上千的类，因此很有必要对类和接口进行分类。
 
-#### 计算机的基础知识：
+### 计算机的基础知识：
 
-### 二进制：  一个0或者1 叫做一个bit（比特，位）
+#### 二进制
 
-### 字节： Byte
-    1 Byte = 8 bit
-    1 KB = 1024 Byte
-    1 MB = 1024 KB
-    1 GB = 1024 MB
-    1 TB = 1024 GB
-    1 PB = 1024 TB
-    1 EB = 1024 EB
-    1 ZB = 1024 ZB
+```
+一个0或者1 叫做一个bit（比特，位）字节： Byte
+1 Byte = 8 bit
+1 KB = 1024 Byte
+1 MB = 1024 KB
+1 GB = 1024 MB
+1 TB = 1024 GB
+1 PB = 1024 TB
+1 EB = 1024 EB
+1 ZB = 1024 ZB
+```
 
-### Java 跨平台性 （不区分操作系统化）  核心是 JVM(虚拟机)
+### Java程序开发的三个步骤 ：
 
-### JVM Java虚拟机 Java代码都在JVM上运行
+编写、编辑、运行
 
-### JRE Java程序的运行环境，包含JVM 和 运行时所需的核心类库     只能运行不能开发Java
+```java
+javac.exe : 编译器
+java.exe  : 解释器
 
-### JDK Java程序的开发工具包，包含JRE 和 开发人员使用的工具     既能运行又能开发Java
+HelloWorld.java
 
-### Java程序开发的三个步骤 ： 编写、编辑、运行
-    javac.exe : 编译器
-    java.exe  : 解释器
-
-    HelloWorld.java
-
-    public class HelloWorld {
-        public static void main(String[] args) {    // 程序执行的起点
-            System.out.println("Hello World!!!");   // 打印输出
-        }
+public class HelloWorld {
+    public static void main(String[] args) {    // 程序执行的起点
+        System.out.println("Hello World!!!");   // 打印输出
     }
+}
 
-    javac HelloWorld.java   生成 HelloWorld.class 文件
+javac HelloWorld.java   生成 HelloWorld.class 文件
 
-    java HelloWorld
+java HelloWorld
+```
 
-#### 修饰符
+### 修饰符
+
     Java语言提供了很多修饰符，主要分为两类：访问修饰符、非访问修饰符
     修饰符用来定义类、方法或者变量，通常放在语句的最前端。
 
-### 访问控制修饰符
+#### 访问控制修饰符
+
     Java中，可以使用访问控制符来保护对类、变量、方法和构造方法的访问。Java 支持 4 种不同的访问权限。
     default (即默认，什么也不写）: 在同一包内可见，不使用任何修饰符。使用对象：类、接口、变量、方法。
     private : 在同一类内可见。使用对象：变量、方法。 注意：不能修饰类（外部类）
     public : 对所有类可见。使用对象：类、接口、变量、方法
     protected : 对同一包内的类和所有子类可见。使用对象：变量、方法。 注意：不能修饰类（外部类）。
-
+    
     |-----------------------|------------------------------------------------------|
     |                       |    public  >   protected  >  (default)  >  private   |
     |      同一个类(自己)     |     YES           YES           YES           YES    |
@@ -92,8 +101,9 @@ https://www.runoob.com/java/java-loop.html
     |   不同包非子类(陌生人)   |     YES            NO            NO            NO    |
     |-----------------------|------------------------------------------------------|
 
-### 非访问修饰符：（static、 final、 abstract、 synchronized、 volatile）
+#### 非访问修饰符
 
+    static、 final、 abstract、 synchronized、 volatile
     static  用来修饰类方法和类变量 静态变量，静态方法，静态代码  静态内容总是先入非静态
         静态变量：static 关键字用来声明独立于对象的静态变量，无论一个类实例化多少对象，它的静态变量只有一份拷贝。
             静态变量也被称为类变量。局部变量不能被声明为 static 变量。
@@ -105,11 +115,11 @@ https://www.runoob.com/java/java-loop.html
         静态变量，静态方法 推荐使用类名称进行调用。
         静态变量:类名称.静态变量
         静态方法:类名称.静态方法()
-
+    
         注意事项：
         静态不能直接访问费静态；因为在内存中，先有静态内容，后有非静态内容；
         静态方法当中不能用this：this代表当前对象，通过谁调用的方法，谁就是当前对象；
-
+    
         静态代码块的格式是：
         public class 类名称{
             static{
@@ -119,7 +129,7 @@ https://www.runoob.com/java/java-loop.html
         当第一次用到本类时，静态代码块执行唯一的一次
         静态内容总是优先于非静态，所以静态代码块比构造方法先执行。
         静态代码块的典型用途：用来一次性的对静态成员变量进行赋值；
-
+    
     final 修饰符，用来修饰类、方法和变量
         final关键字代表最终、不可改变，常见四种用法：
             1、修饰一个类：不能够被继承； public final class Test {}
@@ -135,14 +145,14 @@ https://www.runoob.com/java/java-loop.html
         一个类不能同时被 abstract 和 final 修饰。
         如果一个类包含抽象方法，那么该类一定要声明为抽象类，否则将出现编译错误。
         抽象类可以包含抽象方法和非抽象方法。
-
+    
         抽象方法：是一种没有任何实现的方法，该方法的的具体实现由子类提供。
         抽象方法不能被声明成 final 和 static。
         任何继承抽象类的子类必须实现父类的所有抽象方法，除非该子类也是抽象类。
         如果一个类包含若干个抽象方法，那么该类必须声明为抽象类。
         抽象类可以不包含抽象方法。
         抽象方法的声明以分号结尾，例如：public abstract sample();。
-
+    
     synchronized 和 volatile 修饰符，主要用于线程的编程。
         synchronized：关键字声明的方法同一时间只能被一个线程访问。synchronized 修饰符可以应用于四个访问修饰符。
             public synchronized void showDetails(){
@@ -197,7 +207,7 @@ https://www.runoob.com/java/java-loop.html
                 实例变量对于类中的方法、构造方法或者语句块是可见的。一般情况下应该把实例变量设为私有。通过使用访问修饰符可以使实例变量对子类可见；
                 实例变量具有默认值。数值型变量的默认值是0，布尔型变量的默认值是false，引用类型变量的默认值是null。变量的值可以在声明时指定，也可以在构造方法中指定；
                 实例变量可以直接通过变量名访问。但在静态方法以及其他类中，就应该使用完全限定名：ObejectReference.VariableName。
-
+    
             局部变量：
                 局部变量声明在方法、构造方法或者语句块中；
                 局部变量在方法、构造方法、或者语句块被执行的时候创建，当它们执行完成后，变量将会被销毁；
@@ -208,7 +218,7 @@ https://www.runoob.com/java/java-loop.html
         数据类型 变量名称;
         变量名称 = 数据值;
 
-### 常见的数据结构：栈 / 队列 / 数组 / 链表 / 红黑树 
+### 常见的数据结构
     1、栈： 进栈 出栈 入口和出口在同一侧，因此是先进后出；像弹夹；
     2、队列： 入口和出口各占一侧，因此先进先出；
     3、数组： 查寻快(索引)，增删慢(数组长度固定)；
@@ -220,7 +230,12 @@ https://www.runoob.com/java/java-loop.html
         4、每个共色的节点的子节点都是黑色的；
         5、任何一个节点到其每一个子节点的所有路径上的黑节点数是相同的；
 
-### 数据类型：只有 基本数据类型 和 引用数据类型 两种）
+### 数据类型
+
+只有 基本数据类型 和 引用数据类型 两种）
+
+#### 基本数据类型
+
     数据类型 变量名称 = 数据值;
     基本类型：八种基本类型  六种数据类型（四个整数型、两个浮点型）、一种字符类型、一种布尔类型
         byte：数据类型是8位、有符号的，以二进制补码表示的整数；  -128 ~ 127
@@ -259,10 +274,6 @@ https://www.runoob.com/java/java-loop.html
             0  1  1  1  1 1 1 1
             1  1  1  1  1 1 1 1
             64 32 16  8 4 2 1
-
-    引用数据类型：字符串 、 数组 、 类 、 接口 、 Lambda
-        对象、数组都是引用数据类型。
-        所有引用类型的默认值都是null。
     数据类型注意事项：
         字符串不是基本类型， 而是引用类型；
         浮点型可能只是一个近似值，并非精确的值；
@@ -270,7 +281,16 @@ https://www.runoob.com/java/java-loop.html
         浮点数当中默认类型是double。如果一定要使用float类型，需要加上一个F，后缀名推荐是大写;
         整数中默认为int类型，如果一定要使用long类型，需要加上一个后缀L，后缀名推荐是大写；
 
-### 数据类型转换：
+#### 引用数据类型
+
+```
+字符串 、 数组 、 类 、 接口 、 Lambda
+对象、数组都是引用数据类型。
+所有引用类型的默认值都是null。
+```
+
+#### 数据类型转换：
+
     自动类型转换(隐士)
         1、特点：代码不需要进行特殊处理，自动完成；
         2、规则：数据范围从小到大；不一定是按照字节；可以从int转换成long，long不能转换陈int
@@ -325,7 +345,7 @@ public class StudentDemo {
     顺序结构
     判断结构
     循环结构
-
+    
     循环结构：for、while、do...while
         for(int x = 10; x < 20; x = x+1){}
         增强 for 循环语法格式如下:
@@ -334,21 +354,21 @@ public class StudentDemo {
             }
         声明语句：声明新的局部变量，该变量的类型必须和数组元素的类型匹配。其作用域限定在循环语句块，其值与此时数组元素的值相等。
         表达式：表达式是要访问的数组名，或者是返回值为数组的方法。
-
+    
     break 关键字
         break 主要用在循环语句或者 switch 语句中，用来跳出整个语句块。
         break 跳出最里层的循环，并且继续执行该循环下面的语句。
-
+    
     continue 关键字
         continue 适用于任何循环控制结构中。作用是让程序立刻跳转到下一次循环的迭代。
         在 for 循环中，continue 语句使程序立即跳转到更新语句。
         在 while 或者 do…while 循环中，程序立即跳转到布尔表达式的判断语句。
-
+    
     判断结构
         if
         if...else
         if...else if...else if...else
-
+    
     switch-case 语句
         switch(expression){
             case value :
@@ -385,13 +405,13 @@ public class StudentDemo {
         局部变量：在方法、构造方法或者语句块中定义的变量被称为局部变量。变量声明和初始化都是在方法中，方法结束后，变量就会自动销毁。
         成员变量：成员变量是定义在类中，方法体之外的变量。这种变量在创建对象的时候实例化。成员变量可以被类中方法、构造方法和特定类的语句块访问。
         类变量：类变量也声明在类中，方法体之外，但必须声明为 static 类型。
-
+    
     一个标准的类通常要拥有下面四个组成部分：
         1、所有的成员变量都是用private关键字修饰；
         2、为每一个成员变量编写一对 Getter 和 Setter 方法；
         3、编写一个无参数的构造方法；
         4、编写一个全参数的构造方法；
-
+    
     构造方法
         每个类都有构造方法。如果没有显式地为类定义构造方法，Java 编译器将会为该类提供一个默认构造方法。
         在创建一个对象的时候，至少要调用一个构造方法。构造方法的名称必须与类同名，一个类可以有多个构造方法。
@@ -401,14 +421,14 @@ public class StudentDemo {
         不管你是否自定义构造方法，所有的类都有构造方法；
         因为Java自动提供了一个默认构造方法，默认构造方法的访问修改符和类的访问修改符相同；
         一旦你定义了自己的构造方法，默认构造方法就会失效。
-
+    
         注意事项：
             构造方法名必须和所在的类名称完全一样；
             构造方法不要写返回值，void 因为不写；
             如果没有编写构造方法，那么编译器将会默认赠送一个构造方法，没有参数、方法体 什么都不做；
             一旦编写至少一个构造方法，那么编译器将不再赠送；
             构造方法也是可以进行重载， 重载：方法名称相同，参数列表不同；
-
+    
     finalize() 方法
         Java 允许定义这样的方法，它在对象被垃圾收集器析构(回收)之前调用，这个方法叫做 finalize( )，它用来清除回收对象。
         例如，你可以使用 finalize() 来确保一个对象打开的文件被关闭了。
@@ -419,31 +439,31 @@ public class StudentDemo {
             }
         关键字 protected 是一个限定符，它确保 finalize() 方法不会被该类以外的代码调用。
         Java 的内存回收可以由 JVM 来自动完成。如果你手动使用，则可以使用上面的方法。
-
+    
     成员变量：类中，方法外；
     成员方法：不加static ， public void eat() {}
-
+    
     抽象方法 和 抽象类
         抽象方法：加上abstract关键字，然后去掉大括号，直接分号结束：
             public abstract void eat();
         抽象类：抽象方法所在的类，必须是抽象类；抽象类中可以含有成员方法：
-
+    
             // 抽象类
             public abstract class Animal {
                 // 抽象方法
                 public abstract void eat();
                 // 普通成员方法
                 public void method() {
-
+    
                 }
             }
-
+    
         抽象类和抽象方法的使用：
             1、不能直接创建new抽象类对象；
             2、必须用一个子类来继承抽象父类；
             3、子类必须覆盖重写抽象类中的所有的抽象方法；
             4、创建子类对象进行使用；
-
+    
         抽象类的注意事项：
             1、抽象类不能创建对象，只能创建其非抽象子类的对象；
             2、抽象类可以有构造方法，是供子类创建对象时，初始化父类成员变量使用；
@@ -489,7 +509,7 @@ public class StudentDemo {
 ### 继承性 (extends、implements）  extends集合或者implements实现，是多态性的前提；
     继承就是子类继承父类的特征和行为，使得子类对象（实例）具有父类的实例域和方法，或子类从父类继承方法，使得子类具有父类相同的行为。
     继承是多态的前提，如果没有继承，就没有多态；
-
+    
     继承的特性：
         子类拥有父类非 private 的属性、方法;
         子类可以拥有自己的属性和方法，即子类可以对父类进行扩展;
@@ -521,13 +541,13 @@ public class StudentDemo {
             System.out.println(num);  // 内部类的方法内变量；
             System.out.println(this.num);   // 内部类的成员变量；
             System.out.println(Outer.this.num);  // 外部类变量；
-
+    
     局部内部类：定义在方法内部；
         定义一个类的时候，权限修饰符规则：
             1、外部类：public/ (default);
             2、成员内部类：public/ protected/ (default)/ private;
             3、局部内部类：什么都不写
-
+    
         public class Outer {
             public void method() {
                 class Inner {
@@ -540,14 +560,14 @@ public class StudentDemo {
                 inner.methodInner();
             }
         }
-
+    
         如果希望访问所在方法的局部变量，那么这个变量就必须是有效的final的；从Java8+开始，只要局部变量事实不变，final关键字可以省略；
         原因：
             1、new出来的对象在堆内存当中；
             2、局部变量是跟着方法走的，在栈内存当中；
             3、方法运行结束之后，立刻出栈，局部变量就会立即消失；
             4、但是new出来的对象会在堆当中持续存在，知道垃圾回收消失；
-
+    
     匿名内部类：
         如果类只使用一次，可以省略掉该类的定义，改为使用匿名内部类；
         匿名内部类是省略了实现类、子类名称，匿名对象是省略了对象名称；
@@ -555,7 +575,7 @@ public class StudentDemo {
         接口名称 对象名 = new 接口名称() {
             // 覆盖重写所有抽象方法
         }
-        
+
 
 
 
@@ -563,12 +583,12 @@ public class StudentDemo {
 ### 接口
     接口就是多个类的公共规范。
     接口是一种引用数据类型，最重要的内容就是其中的：抽象方法；
-
+    
     public interface 接口名称 {
         // 接口内容
     }
     备注： 换成了关键字interface之后，编译生成的字节码文件依然是： .java --> .class
-
+    
     如果是Java7， 那么接口中可以包含的内容有：
         1、常量；
             接口中也可以定义成员变量，但是必须使用public static final三个关键字进行修饰；
@@ -602,15 +622,15 @@ public class StudentDemo {
                 private static 返回值类型 方法名称(参数) {
                     // 方法体
                 }
-
+    
     接口的使用步骤：
         1、接口不能直接使用，必须有一个实现类来实现该接口； implements；
         2、接口的实现类必须重写（实现）接口中多有的抽象方法；
         3、创建实现类的对象，进行使用；
-
+    
     注意事项：
         如果实现类并没有覆盖重写接口中所有的先后向方法，那么这个实现类自己就必须是抽象方法；
-
+    
     接口注意事项：
         1、接口是没有静态代码块或者构造方法的；
         2、一个类的直接父类是惟一的，但是一个类可以同时实现多个接口；
@@ -618,25 +638,25 @@ public class StudentDemo {
         4、如果实现类没有覆盖重写所有接口中的多有抽象方法，那么实现类就必须是一个抽象类；
         5、如果实现类所实现的多个接口中，存在重复的默认方法，那么实现类一定要对冲突的默认方法进行覆盖重写；
         6、一个类如果直接父类当中的方法和接口当中的默认方法发生冲突，优先用父类当中的方法；
-
+    
     接口之间的继承关系：
         1、类与类之间是单继承的，直接父类只有一个；
         2、类与接口之间是多实现的，一个类可以实现多个接口；
         3、接口与接口之间是多继承的；
-
+    
         注意事项：
             1、多个父接口当中的抽象方法如果重复，没关系；
             2、过个父接口当中的默认方法如果重复，那么子接口必须进行默认方法的覆盖重写，而且带着default关键字；
 
 ### 多态性：一个对象具有多种形态；
     extends集合或者implements实现，是多态性的前提；
-
+    
     代码当中体现多态，其实就一句话：父类引用指向子类对象；
     父类名称 对象名 = new 子类名称();   Fu obj = new Zi();
         Collection<String> coll = new ArrayList<>();
         Collection<String> coll = new HashSet<>();
     接口名称 对象名 = new 实现类名称();   // 接口指向一个实现类
-
+    
     多态中访问成员变量的两种方法：
         1、直接通过对象名称访问成员变量：看等号左边是谁，优先用谁，没有则向上找；
             Fu obj = new Zi();
@@ -644,12 +664,12 @@ public class StudentDemo {
         2、间接通过成员方法访问成员变量：看该方法属于谁，优先用谁，没有则向上找；
             Fu obj = new Zi();
             obj.showNum();  // 优先找子类；
-
+    
     多态中访问成员方法： 看new的是谁，就优先用谁，没有则向上找；编译看左，运行看右；
             Fu obj = new Zi();
             obj.methodZi();  // 错误写法，因为obj是父类，父类中没有methodZi()方法；
             obj.method()   // 正确写法，obj是父类，父类中有method()方法，但是运行的时候首先看子类中有没有method重写；
-
+    
     向上转型：其实就是多态： 父类名称 对象名 = new 子类名称();
         创建子类对象，把其当做父类来看待和使用；
         但是向上转型无法使用子类特有的方法，解决方案：向下转型；
@@ -687,7 +707,7 @@ public class StudentDemo {
         2、浮点型 : float(单精度 4个字节) 、 double(默认 双精度 8个字节)
         3、字符型 : char(2)
         4、布尔型 : boolean(1)
-
+    
         |-------------------------|
         |  基本类型  |   包装类     | 
         |-----------|-------------|
@@ -700,10 +720,10 @@ public class StudentDemo {
         |   char    |  Character  |
         |  boolean  |   Boolean   |
         |-------------------------|
-
+    
     引用数据类型（后面具体介绍）
         字符串 、 数组 、 类 、 接口 、 Lambda
-
+    
     ArrayList 中常用的方法：
         1、public boolean add(E e);     ->  list.add("zhang");
         2、public E get(int index);     ->  String name = list.get(2);
@@ -717,7 +737,7 @@ public class StudentDemo {
         2、字符串效果上相当于是char[]字符数组，但是底层原理是byte[]字节数组；
     对于引用类型来说， == 进行的是地址值得比较；
     双引号直接写的字符串在常量池当中，new的不在池当中;
-
+    
     创建方法（3+1）三种构造方法 + 一种直接创建
         1、创建空字符：public String()
             String str = new String();
@@ -729,23 +749,23 @@ public class StudentDemo {
             String str2 = new String(arr2);
             System.out.println(str2);   // abc
         4、String str = "zhang";
-
+    
     字符串中的常用方法：
-
+    
         1、比较：equals  具有对称性 区分大小写：
             "abc".equals(str)  推荐变量写在后面，如果变量写在前面时，若为空字符串，则会报错；
             str1.equalsIgnoreCase(Str2)  忽略大小写；
-
+    
         2、
             public int length()  ->  str.length();
             public String concat(String str) -> str3 = str1.concat(str2)
             public char charAt(int index)    ->  char ch = str.charAt(2)  // str第二个字符（从0开始）
             public int indexOf(String str)   ->  int n = str.indexOf(str1)  // str中第一次出现str1字符串的位置，如果没有返回-1；
-
+    
         3、字符串截取：
             public String substring(int index)  ->  str.substring(3)
             public String substring(int begin, int end) ->  str.substring(3,5)
-
+    
         4、字符串转换：
             public char[] toCharArray();
                 char[] arrs = str1.toCharArray();
@@ -759,7 +779,7 @@ public class StudentDemo {
                 }
             public String replace(charSequence oldString, CharSequence newString);
                 String str2 = println(str1.replace("b","c");  // str1中的b替换成c
-
+    
         5、分割：参数其实是一个正则表达式  . => \\.
             public String[] split(String regix);
                 String strstr = "a,b,c,d,1";
@@ -777,21 +797,21 @@ public class StudentDemo {
     public static double ceil(double num)   Math.ceil();  // 向上取整
     public static double floor(double num)  Math.floor(); // 向下取整
     public static long round(double num)    Math.round(); // 四舍五入
-
+    
     Math.PI         圆周率
 
 
 ### Object类
     java.lang.Object类是Java语言中的根类，即所有类的父类。它中描述的所有方法子类都可以使用。在对象实例化的时候，最终找的父类就是Object。
     如果一个类没有特别指定父类，那么默认则继承自Object类。
-
+    
     toString方法：public String toString()：返回该对象的字符串表示。
         public String toString()：返回该对象的字符串表示。
         toString方法返回该对象的字符串表示，其实该字符串内容就是对象的类型+@+内存地址值。
         由于toString方法返回的结果是内存地址，而在开发中，经常需要按照对象的属性得到相应的字符串表现形式，因此也需要重写它。
         覆盖重写：如果不希望使用toString方法的默认行为，则可以对它进行覆盖重写。
         在我们直接使用输出语句输出对象名的时候,其实通过该对象调用了其toString()方法。
-
+    
     equals：public boolean equals(Object obj)：指示其他某个对象是否与此对象“相等”。
         默认比较两个方法的地址值
         public boolean equals(Object obj) {}
@@ -799,7 +819,7 @@ public class StudentDemo {
 ### Date
     java.util.Date:表示如期和时间的类；
     毫秒：千分之一秒
-
+    
     Date类常用的方法：两个构造方法，一个成员方法：
     1、Date date = new Date();
     2、Date date1 = new Date(1602077494533L);
@@ -823,7 +843,7 @@ public class StudentDemo {
 ### 使用泛型：
     1、避免了类型转换的麻烦，存储的是什么类型，取出的就是什么类型；
     2、把运行期的异常(代码运行之后会抛出的异常)，提升到了编译期(写代码的时候会报错)；
-
+    
     // 使用泛型：
     pivate static void interator01() {
         ArrayList<String> list = new ArrayList<>();
@@ -836,7 +856,7 @@ public class StudentDemo {
             System.out.println(s+"->"+s.length());
         }
     }
-
+    
     // 不使用泛型
     private static void interator02() {
         ArrayList list = new ArrayList();
@@ -860,37 +880,37 @@ public class StudentDemo {
 ### 泛型的定义与使用
     在集合中会大量使用到泛型；
     泛型，用来灵活地将数据类型应用到不同的类、方法、接口当中。将数据类型作为参数进行传递。
-
+    
     定义和使用含有泛型的类： 修饰符 class 类名<代表泛型的变量> {  }
-
+    
     定义一个含有泛型的类，模拟ArrayList集合
         泛型是一个位置的数据类型，当我们不确定什么数据类型的时候，可以使用泛型
         泛型可以接受任意的数据类型，可以使用Integer，String，Student...
         创建对象的时候确定泛型的数据类型
-
+    
         public class GenericClass<E> {
             private E name;
         }
-
+    
     定义含有泛型的方法 泛型定义在方法的修饰符和返回值类型之间 可以是任意字母
         修饰符 <泛型> 返回值类型 方法名(参数列表-使用泛型) {  }
-
+    
         // 普通方法
         public <M> void method01(M m) {
             System.out.println(m);
         }
-
+    
         // 静态方法调用建议使用类名直接调用，不需要创建对象使用
         public static <S> void method02(S s) {
             System.out.println(m);
         }
-
+    
     含有泛型的接口
         有两种使用方式：
         1、重写方法是定义泛型；
         2、创建对象的时候定义；
         修饰符 interface 接口名 <泛型> {  }
-
+    
         public interface MyGenericInterface<E>{
             public abstract viod add(E e);
             public abstract E getE();
@@ -899,11 +919,11 @@ public class StudentDemo {
 ### 泛型通配符
     当使用泛型类或者接口时，传递的语句中，泛型类型不确定，可以通过通配符<?>表示。
     但是一旦使用泛型的通配符后，只能使用Object类中的共性方法，集合中圆度自身方法无法使用。
-
+    
     通配符
         泛型的通配符：不知道使用说明类型来接收的时候，此时可以使用？，？表示位置通配符；
         此时只能接收数据，不能往该集合中存储数据。
-
+    
     泛型的 上限 和 下限 使用
         类之间的继承关系：
         Integer extends Number extends Object
@@ -922,15 +942,15 @@ public class StudentDemo {
         Map集合中的元素，key和value的数据类型可以相同，也可以不同
         Map集合中的元素，key是不允许重复的，value是可以重复的
         Map集合中的元素，key和value是意义对应
-
+    
     Collection 单列集合累的跟接口，有两个重要的子接口：
     1、java.util.List ：元素有序、元素可重复；
     2、java.util.Set ：无序的、元素不可以重复；
-
+    
     List 接口的主要实现类有：
     1、java.util.ArrayList
     2、java.util.LinkedList
-
+    
     Set 接口的主要实现类有：
     1、java.util.HashSet
     2、java.util.TreeSet
@@ -957,13 +977,13 @@ public class StudentDemo {
     1、有序的集合，存储元素和取出元素的顺序是一直的；
     2、有索引，包含了一些带索引的方法；
     3、允许存储重复的元素；
-
+    
     List接口带有索引的方法（特有）
     1、public void add(int index, E element) : 将指定元素添加到指定的位置上；
     2、public E get(int index) : 返回集合中指定位置的元素；
     3、public E remove(int index) : 移除指定位置的元素，返回的是被移除的元素；
     4、public E set(int index, E element) : 用指定元素替换集合中指定位置的元素，返回的是被替换的元素；
-
+    
     ArrayList 底层是数组结构，查询快，增删慢；
         ArrayList<String> list = new ArrayList<>();
     LinkedList 底层是链表结构，查询慢，增删快，里面包含了大量操作首尾元素的方法：
@@ -983,7 +1003,7 @@ public class StudentDemo {
 ### set 接口 extends Collection 接口
     1、不允许存储重复的元素；
     2、没有索引，没有带索引的方法，也不能使用普通的for循环遍历，使用迭代器或者增强for循环遍历；
-
+    
     java.uril.HashSet 集合 implements Set 接口
         1、不允许存储重复的元素；
         2、没有索引，没有带索引的方法，也不能使用普通的for循环遍历，使用迭代器或者增强for循环遍历；
@@ -996,7 +1016,7 @@ public class StudentDemo {
     hashCode方法的源码：
         public native int hashCode();
         native: 代表该方法调用的是本地操作系统的方法
-
+    
     HashSet 集合存储数据的结构（哈希表：查询速度快）
     jdk1.8版本之前：哈希表 = 数组 + 链表
     jdk1.8版本之后：
@@ -1004,7 +1024,7 @@ public class StudentDemo {
         哈希表 = 数组 + 红黑树 （提高查询的速度）
         数组结构：把元素进行了分组（相同哈希值的元素是一组）；
         链表、红黑树结构：把相同哈希值的元素连接到一起；
-
+    
     LInkedHashSet：底层是一个哈希表（数组+链表/红黑树）+链表；多了一条链表（记录元素的储存顺序），保证元素有序
     java.util.LInkedHashSet集合 extends HashSet集合
 
@@ -1022,15 +1042,15 @@ public class StudentDemo {
 
 ### 迭代： Collection集合元素的通用获取方式。
     在取元素之前要先判断集合中有没有元素，如果有，就把这个元素取出来，继续判断。一直把集合中的所有元素全部取出；
-
+    
     Iterator 接口的常用方法如下：
     1、public E next() : 返回迭代的下一个元素；
     2、public boolean hasNext() : 如果仍有元素可以迭代，则返回true；
-
+    
     Iterator迭代器 是一个接口，我们无法直接使用，需要使用Iterator接口的实现类对象；获取实现类的方式比较特殊；
     Collection接口中有一个方法，叫Iterator(), 这个方法返回的就是迭代器的实现类对象；
     Iterator<E> iterator() 返回在此Collection的元素上进行迭代的迭代器；
-
+    
     迭代器的是不步骤：
     1、使用集合中的方法Iterator()获取迭代器的实现类对象，使用Iterator接口接收(多态);
         Collection<String> coll = new ArrayList<>();
@@ -1045,7 +1065,7 @@ public class StudentDemo {
 ### 增强for循环 (可以替代遍历器)
     增强for循环(也称for each 循环)是JDK1.5以后出来的一个高级for循环，专门用来遍历数组和集合的；
     增强for循环的内部原理其实就是Iterator迭代器，所以在遍历的过程中，不能对集合中的元素进行增删操作；
-
+    
     for(元素的数据类型 变量 : Collection集合or数组) {
         // 操作代码
     }
@@ -1096,7 +1116,7 @@ public class StudentDemo {
         被排序的集合里边存储元素。必须实现Comparable。重写接口中的方法compareTo定义排序规则
         Comparable接口的排序规则： 自己（this) - 参数 ：升序
         package com.baidu.test.demo05;
-
+    
             public class Person implements Comparable<Person> {
                 @Override
                 public int compareTo(Person o) {
@@ -1104,7 +1124,7 @@ public class StudentDemo {
                     return this.age - o.age;
                 }
             }
-
+    
             ArrayList<Person> list03 = new ArrayList<>();
             list03.add(new Person("zhangsan",18));
             list03.add(new Person("wangwu",20));
@@ -1113,19 +1133,19 @@ public class StudentDemo {
             System.out.println(list03);
             Collections.sort(list03);
             System.out.println(list03);
-
+    
     public static <T> boid sort(List<T> list, Comparator<? super T>) : 将集合中元素按照指定规则排序；  必须是list集合
         Comparator 和 Comparable 的区别：
             Comparable： 自己（this)和别人参数比较，自己需要实现Comparator接口，重写比较的参数compareTo方法
             Comparator：相当于找一个第三方的裁判，比较两个；
-
+    
                 ArrayList<Person> list03 = new ArrayList<>();
                 list03.add(new Person("zhangsan",18));
                 list03.add(new Person("wangwu",20));
                 list03.add(new Person("chenliu",19));
                 list03.add(new Person("lisi",21));
                 System.out.println(list03);
-
+    
                 Collections.sort(list03, new Comparator<Person>() {
                     @Override
                     public int compare(Person o1, Person o2) {
@@ -1159,10 +1179,10 @@ public class StudentDemo {
         key存在返回对应的value，key不存在，返回null；
     public V get(Object key) : 根据指定的键，在Map集合中获取对应的值；
     boolean containsKey(Obkect key) : 判断集合中是否包含指定的键；
-
+    
     public Set(k) keySet() : 获取Map集合中所有的键，存储到Set集合中；
     public Set<Map.Entry<K, V>> entrySet() : 获取到Map集合中所有的键值对对象的集合（Set集合）；
-
+    
     Map 集合遍历：
         1、通过键找值的方式；public Set(k) keySet() : 获取Map集合中所有的键，存储到Set集合中；
             a、使用Map集合中的方法keySet()，把Map集合所有的key取出来，存储到一个Set集合中；
@@ -1172,7 +1192,7 @@ public class StudentDemo {
             a、使用Map集合中的方法entrySet()，把Map集合中多个Entry对象取出来，存储到一个Set集合中；
             b、遍历Set集合，获取每一个Entry对象；
             c、使用Entry对象中的方法getKey() 和 getValue() 获取键与值；
-
+    
         // 通过键找值的方式；
         public static void main(String[] args) {
             Map<String, Integer> map = new HashMap<>();
@@ -1202,7 +1222,7 @@ public class StudentDemo {
                 System.out.println(name + "=" + value);
             }
         }
-
+    
         // 使用Entry对象遍历
         public static void main(String[] args) {
             Map<String, Integer> map = new HashMap<>();
@@ -1237,7 +1257,7 @@ public class StudentDemo {
     key:Person类型
         Person类就必须重写hashCode方法和equal方法，以确保key唯一；
     value：String类型：可以重复；
-
+    
     public static void main(String[] args) {
         demo01();
         demo02();
@@ -1280,10 +1300,10 @@ public class StudentDemo {
     
     Hashtable：底层也是一个哈希表，是一个线程安全的集合，是单线程，速度慢；
     HashMap： 底层是一个哈希表，是一个线程不安全的集合，是多线程的集合，速度快；
-
+    
     HashMap集合（之前学的所有的集合）：可以存储null值，null键；
     Hashtable集合，不能存储null值和null键；
-
+    
     Hashtable 和 Vector 集合一样，在JDK1.2之后被更先进的集合（HashMap，ArrayList）取代了；
     Hashtable的子类Properties依然活跃；
     Properties集合是一个唯一和IO流结合的集合；
@@ -1297,7 +1317,7 @@ public class StudentDemo {
         System.out.println("输入的字符串为：" + str);
         tongji(str);
     }
-
+    
     private static void tongji(String str) {
         HashMap<Character, Integer> map = new HashMap<>();
         char[] chs = str.toCharArray();
@@ -1316,7 +1336,7 @@ public class StudentDemo {
             System.out.println(key +"出现的次数为："+ value);
         }
     }
-
+    
     public static void main(String[] args) {
         List<String> colors = List.of("♥", "♦", "♠", "♣");
         List<String> numbers = List.of("2", "A", "K", "Q", "J", "10", "9", "8", "7", "6", "5", "4", "3");
@@ -1376,7 +1396,7 @@ public class StudentDemo {
 
 ### 异常
     在java等面向对象的编程语言中，异常本身是一个类，产生异常就是创建一项对象并抛出一个异常对象，java处理意向的方式是终端处理；
-
+    
     异常体系
         异常机制其实是帮助我们找到程序中的问题，意向的根类是java.lang.Throwable,其下面有两个子类：
         java.lang.Error 与 java.lang.Exception ，平常所说的意向指java.lang.Exception;
@@ -1394,7 +1414,7 @@ public class StudentDemo {
 
 ### 异常的处理
     java异常处理的五个关键字： try / catch / finally / throw / throws
-
+    
     抛出异常 throw
         可以使用throw关键字在指定的方法中抛出指定的异常
         throw new xxxException("异常产生的原因");
@@ -1437,7 +1457,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
             4、调用了一个声明排除异常的方法，我们就必须处理声明的异常
                 那么继续使用throws声明抛出，交给方法的调用者处理，最终交个JVM；
                 要么try...catch自己处理异常
-
+    
             public class Yichang02 {
                 public static void main(String[] args) throws FileNotFoundException,IOException {
                     readFile("c:\\a.txt");
@@ -1454,7 +1474,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
                     System.out.println("后续代码");
                 }
             }
-
+    
     try...catch
         try{
             // 可能产生异常的代码
@@ -1463,13 +1483,13 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
             一般在工作中，把异常的信息记录到一个日志中
         }
         ...catch(异常类名 变量名){
-
+    
         }
     注意：
         1、try中可能抛出多个异常对象，那么就可以使用多个catch来处理这些异常对象；
         2、如果try中产生了异常，那么就会执行catch中的异常处理逻辑，执行完毕catch中的处理逻辑，继续执行try..catch之后的代码
             如果try中没有产生异常，那么就不会执行catch中异常的异常逻辑，执行完try中的代码，继续执行try...catch之后的代码
-
+    
             public static void main(String[] args) {
                 try {
                     test("d:\\a.txt");
@@ -1478,14 +1498,14 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
                 }
                 System.out.println("后续代码！！！");
             }
-
+    
             private static void test(String fileName) throws IOException {
                 if(!fileName.endsWith(".txt")){
                     throw new IOException("文件后缀名不对");
                 }
                 System.out.println("文件后缀名没有问题");
             }
-
+    
     Throwable 类中定义了三个异常处理方法：
         1、String getMessage() 返回此 throwable 的简短描述；
         2、String toString() 返回此 throwable 的详细消息字符串；
@@ -1505,7 +1525,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
             一般在工作中，把异常的信息记录到一个日志中
         }
         ...catch(异常类名 变量名){
-
+    
         }finally{
             // 无论是否出现异常都会执行
         }
@@ -1521,9 +1541,9 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
             
             一次捕获多次处理
             try{
-
+    
             }catch(异常类型A e){
-
+    
             }catch(异常类型B e){
                 
             }
@@ -1539,7 +1559,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
     自定义异常类必须继承 Exception 或者 RuntimeException
         继承 Exception ： 那么自定义的异常类就是一个编译器异常，如果方法内部抛出了编译期异常，就不许处理这个异常，要么throws，要么try...catch
         继承 RuntimeException : 那么自定义的异常类就是一个运行期异常，无需处理，交给虚拟机（JVM）处理（中断处理）
-
+    
     public class XXXException extends Exception (或者 RuntimeException) {
         // 添加一个空参数的构造方法
         // 添加一个带异常信息的构造方法
@@ -1557,16 +1577,16 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
     进程：是指一个内存中进行的应用程序，每个进程都有一个独立的内存空间；
          进程也是程序的一次执行过程，是系统运行程序的基本单位；
          系统运行一个程序：一个进程从创建、运行 到 消亡 的过程；
-
+    
     线程：是进程的执行单位，一个进程中至少有一个线程；
          一个进程中是可以有多个线程的，这个应用程序也可以称之为多线程程序；
-
+    
          线程的调度：
             分时调度：
             抢占式调度：
-
+    
     一个程序运行后至少有一个进程，一个进程中可以包含多个线程；
-
+    
     硬盘：永久存储ROM
     内存：临时存储RAM
 
@@ -1619,7 +1639,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
         for (int i = 0; i < 5; i++) {
             System.out.println(Thread.currentThread().getName()+"--"+i);
         };
-
+    
         // 线程的父类 Thread
         new Thread(){
             @Override
@@ -1629,7 +1649,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
                 }
             }
         }.start();
-
+    
         // 线程的接口 Runnable
         Runnable r = new Runnable(){
             @Override
@@ -1640,7 +1660,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
             }
         };
         new Thread(r).start();
-
+    
         // 线程的接口 Runnable 简化
         new Thread(
                 new Runnable(){
@@ -1685,7 +1705,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
                 }
             }
         }
-
+    
     ### 方案二：同步方法
     1、把访问了共享数据的代码抽取出来，放到一个方法中；
     2、在方法上添加synchronized修饰符；
@@ -1712,26 +1732,26 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
             }
         }
     }
-
+    
     静态的同步方法
-
+    
     ### 方案三：lock锁
     java.util.concurrent.locks Lock接口
     Lock接口提供了比使用synchronized 方法和语句可获得的更广泛的锁定操作；
     Lock接口中的方法：
         void lock() 获取锁
         void unlock() 释放锁
-
+    
     java.util.concurrent.locks.ReentrantLock implements Lock 接口
-
+    
     使用步骤：
         1、在成员位置创建一个ReentrantLock对象；
         2、在可能会出现安全问题的代码前调用Lock接口中的方法lock获取锁；
         3、在可能会出现安全问题的代码后调用Lock接口中的方法unlock释放锁；
-
+    
     import java.util.concurrent.locks.Lock;
     import java.util.concurrent.locks.ReentrantLock;
-
+    
     public class RunnableImpl implements Runnable {
         private int tickets = 200;
         Lock l = new ReentrantLock();
@@ -1772,11 +1792,11 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
             顾客和老板线程必须使用同步代码块包裹起来，保证等待和唤醒只能有一个执行；
             同步使用的锁对象必须保证唯一；
             只有锁对象才能调用wait和notify方法；
-
+    
         public class WaitNotifyDemo {
             public static void main(String[] args) {
                 Object obj = new Object();
-
+    
                 // 顾客线程
                 new Thread(){
                     @Override
@@ -1792,7 +1812,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
                         }
                     }
                 }.start();
-
+    
                 // 老板线程
                 new Thread(){
                     @Override
@@ -1810,11 +1830,11 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
                 }.start();
             }
         }
-
+    
     进入到TimeWaiting（计时等待）有两种：
         1、使用sleep(long m)方法，在毫秒值结束之后，线程睡醒进入到Runnable/Blocked状态；
         2、使用wart(long m)方法，wait方法如果在毫秒值结束之后，还没有被notify韩星，就会自动醒来，线程进入到Runnable/Blocked状态；
-
+    
     唤醒的方法：
         1、void notify() 唤醒在此对象监听等待的多个线程，如果有多个，则随机唤醒一个；
         2、void notifyAll() 唤醒再次对象监视器上等待的所有线程；
@@ -1849,9 +1869,9 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
     当我们使用完毕线程，需要把线程归还给线程池：
         list.add(t);
         linked.addLast(t);
-
+    
     JDK 1.5 之后，JDK内置了线程池，我们可以直接使用
-
+    
     线程池：JDK1.5之后提供的：
     java.util.concurrent.Executors: 线程池的工厂类。用来生成线程池；
     Executors类中的静态方法：
@@ -1861,7 +1881,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
     java.util.conturrent.ExecutorService:线程池接口
         用来从线程池中获取线程，调用start方法，执行线程任务：submit(Runnable task) 提交一个Run那边了任务用于执行
         关闭/销毁线程池的方法： void shutdown()
-
+    
     线程池的使用步骤：
         1、使用线程池的工厂类Executors里边提供的静态方法newFixedThreadPool生产一个指定数量的线程池；
         2、创建一个类，实现Runnable接口，重写run方法，设置线程任务；
@@ -1873,7 +1893,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
 ### 函数式编程思想：
     面向对象的思想： 做一件事情，好到可以解决这件事情的对象，再调用对象中的方法完成事情；
     函数式编程思想：只要能获取到结果，谁去做，怎么做等都不重要，重视的是结果，不重视过程；
-
+    
     // 匿名内部类
     new Thread() {
         @Override
@@ -1881,13 +1901,13 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
             System.out.println(Thread.currentThread().getName()+"新线程创建了");
         }
     }.start();
-
+    
     // Lambda
     new Thread(() -> {
             System.out.println(Thread.currentThread().getName()+"新线程创建了");
         }
     ).start();
-    
+
 ### Lambda表达式：是可以推导，可以省略
     省略的前提：
         1、使用Lambda必须具有接口，且接口中有且仅有一个抽象类方法；有且仅有一个抽象方法的接口，成为"函数式接口"；
@@ -1945,7 +1965,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
     4、目录的遍历
         a、public String[] list() 返回一个String数组，便是该File目录中的所有子文件或者目录
         b、public File[] listFiles() 返回一个File数组，便是该File目录中的所有子文件或者目录
-
+    
     String name = file.getName();
     String path = file.getPath();
     String str = file.toString();
@@ -1984,7 +2004,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
     输入流：把数据从其他设备上读取到内存中的流；
     输出流：把数据从内存中写出到其他设备上的流；
     格局数据的类型分为：字节流 和 字符流；
-
+    
     顶级父类：这几个都是抽象类，无法直接使用，使用其子类；
     |----------|---------------|------------------|
     |          |      输入流    |       输出流      |
@@ -1993,24 +2013,24 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
     |----------|---------------|------------------|
     |  字符流   |     Reader    |      Writer      |
     |----------|---------------|------------------|
-    
+
 ### 字节流
     一切皆为字节：一切文件数据（文本、图片、视频等）在储存是，都是以二进制数组的形式保存，都是一个一个字节，传输时也是字节；
     字节流可以传输任意文件数据；无论使用什么样的流对象，底层传输的始终未二进制数据；
 
 ### 字节输出流 （OutputStream）
     java.io.OutputStream 抽象类书表示字节输出流的所有类的超类，将指定的字节信息写出到目的地；
-
+    
     OutputStream 定义了一些子类共性的成员方法：
         public void close() : 关闭此输出流并释放与此流相关的任何系统资源；当完成流的操作时，必须调用此方法，释放系统资源；
         public void flush() : 刷新此输出流并强制任何缓冲的输出字节被写入；
         public void write(byte[] b) : 将b.length字节从指定的字节数组中写入此输出流；
         public void write(byte[] b, int off, int len) : 从指定的字节数组写入len字节，从偏移量off开始输出到此输出流；
         public abstract void write(int b) : 将指定的字节输出流；
-
+    
     java.io.FileOutputStream extends OutputStream
     FileOutputStream ： 文件字节输出流；把内存中的数据写入到硬盘的文件中；
-
+    
     构造方法：
         FileOutputStream(String name) : 创建一个向具有指定名称的文件中写入数据的输出文件流； String name: 目的地是一个文件的路径；
         FileOutputStream(File file) : 创建一个向指定File对象表示的文件中写入数据的文件输出流； File file: 目的地是一个文件；
@@ -2019,10 +2039,10 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
         1、创建一个FileOutputStream对象；
         2、会根据构造方法中传递的文件/文件路径，创建一个空文件；
         3、会把FileOutputStream对象指向创建好的文件；
-
+    
     写入数据的原理（内存 ---> 硬盘）
         java程序 --> JVM（java虚拟机） --> OS（操作系统） --> OS调用写数据的方法 --> 把数据写入到文件中
-
+    
     字节输出流的使用步骤：
         1、创建一个FileOutputStream对象，构造方法中传递写入数据的目的地；FileOutputStream fos = new FileOutputStream("fos.txt");
         2、调用FileOutputStream对象中的方法write，把数据写入到文件中； fos.write(97);
@@ -2038,14 +2058,14 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
     
     如果写入的第一个字节是正数（0-127），那么现实的时候会查询ASCII表；
     如果写入的第一个字节是负数，那第一个字节会和第二个字节组成一个中文现实，查询系统默认码表（GBK）；
-
+    
     追加/续写：使用两个参数的构造方法：
         FileOutputStream(String name, boolean append) : 创建一个向具有指定名称的文件中写入数据的输出文件流； String name: 目的地是一个文件的路径；
         FileOutputStream(File file, boolean append) : 创建一个向指定File对象表示的文件中写入数据的文件输出流； File file: 目的地是一个文件；
             参数： boolean append : 追加开关；true表示追加，false表示覆盖；
-
+    
     换行：Windows(\r\n)、Linux(\n)、Mac(\r)
-
+    
         public static void main(String[] args) throws IOException {
             FileOutputStream fos = new FileOutputStream("test.txt", true);
             for (int i = 0; i < 5; i++) {
@@ -2062,9 +2082,9 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
 
     当使用字节流读取文本文件时，可能会有一个小问题，就是遇到中文字符时，可能不会显示完整的字符，
     那是因为一个中文字符可能占用多个字节存储。使用字符流（以字符为单位读写数据）可以解决；
-
+    
     java.io.InputStream 抽象类 表示字节输入流的所有类的超类；
-
+    
     InputStream 定义了一些子类共性的成员方法：
         int read() 从输入流读取数据的下一个字节；
         int read(byte[] b) 从输入流中读取一定数量的字节，并将其存储在缓存区b中；
@@ -2073,20 +2093,20 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
                 2、数组的长度一般定义为1024（1kb）或者1024的整数倍；byte[] bytes = new byte[1024];
             方法的返回值int是为什么：每次读取的有效字节个数；
         void close() 关闭此输入流并释放与该流关联的所有系统资源；
-
+    
     java.io.FileInputStream extends InputStream
         FileInputStream： 文件字节输入流； 把硬盘文件中的数据，读取到内存中使用；
-
+    
     构造方法：
         FileInputStream(String name)  String name：文件的路径
         FileInputStream(File file)  File file：文件
     构造方法的作用：
         1、会创建一个FileInputStream对象；
         2、会吧FileInputStream对象指定构造方法中要读取的文件；
-
+    
     写入数据的原理（内存 ---> 硬盘）
         java程序 --> JVM（java虚拟机） --> OS（操作系统） --> OS调用写数据的方法 --> 把数据写入到文件中
-
+    
     字节输出流的使用步骤：
         1、创建一个FileInputStream对象，构造方法中传递写入数据的目的地； FileInputStream fis = new FileInputStream("fos.txt");
         2、调用FileInputStream对象中的方法read，把数据写入到文件中； 一次读一个字节； 读取到文件末尾返回-1；
@@ -2094,12 +2114,12 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
             while ((len = fis.read()) != -1) {
                 System.out.println(len);
             }
-
+    
             while (fis.rad() != -1) {
                 System.out.println(fis.rad());   // 这种方法不对，因为read()方法一次读一个字节，此方法中有两个read()，必须要用一个变量接收
             }
         3、释放资源（流使用会占用一定的内存，使用完毕要把内存清空）； fis.close();
-
+    
     字节输入流一次读取多个字节：
         FileInputStream fis = new FileInputStream("fos.txt");  // 可以是路径字符串或者File对象
         byte[] bytes = new byte[1024];
@@ -2111,7 +2131,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
             // 把字节数组的一部分转换成字符串，offset：数组的开始索引， length：转换的字节个数；
             System.out.println(new String(bytes, 0, len));
         }
-
+    
     // 复制 先读后写，先关闭写；
     public static void main(String[] args) throws IOException {
         FileInputStream fis = new FileInputStream("fos.txt");
@@ -2133,18 +2153,18 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
         int read()  // 读取当个字符并返回；
         int read(char[] dbuf)   // 一次读取多个字符，将字符读入数组；
         void close()    // 关闭该流并释放与之关联的所有资源；
-
+    
     java.io.FileReader extends InputStreamReader extends Reader
     FileReader：文件字符输入流：把硬盘文件中的数据以字符的方式读取到内存中；
-
+    
     构造方法：
         FileReader(String fileName) // String fileName：文件的路径；
         FileReader(File file)   // File file：文件
-
+    
         构造方法的作用：
             1、创建一个FileReader对象；
             2、会吧FileReader对象指向要读取的文件；
-
+    
     字符输入流的使用步骤：
         1、创建FileReader对象，构造方法中绑定要读取的数据源； FileReader fr = new FileReader("fos.txt");
         2、使用FileReader对象中的read()方法读取文件；
@@ -2153,7 +2173,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
             while ((len = fr.read()) != -1) {
                 System.out.println((char)len);
             }
-
+    
             b、
             int len = 0;
             char[] cs = new char[1024];
@@ -2175,35 +2195,35 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
         5、void write(String str, int off, int len) 写入字符串的某一部分，off为字符串的开始索引，len为写的字符个数；
         6、void flush() 刷新该流的缓冲；流对象可以继续使用；
         7、void close() 关闭此流，但要先刷新它；就对象不可以使用；
-
+    
     java.io.FileWriter extends OutputStreamWrite extends Writer
     FileWriter: 文件字符输出流： 把内存中字符数据写入到文件中；
-
+    
     构造方法：
         FileWriter(File file) 根据给定的File对象构造一个FileWriter对象；    File file：一个文件
         FileWriter(String fileName) 根据给定的文件名构造一个FileWriter对象；    String fileName：文件的路径
-
+    
         构造方法的作用：
             1、会创建一个FileWriter对象；
             2、会根据构造方法中传递的文件/文件的路径，创建文件；
             3、会把FileWriter对象指向建好的文件；
-
+    
     字符输出流的使用步骤：
         1、创建FileWriter对象，构造方法找那个绑定要写入数据的目的地；  FileWriter fw = new FileWriter("fw.txt");
         2、使用FileWriter中的方法write，把数据写入到内存缓冲区中（字符转换为字节的过程）；  fw.write(98);
         3、使用FileWriter中方法flush，把内存缓冲区中的数据，刷新到文件中；
         4、释放资源（会先把内存缓冲区找那个的数据刷新到文件中）；   fw.close();
-
+    
     追加/续写：使用两个参数的构造方法：
     FileWriter(String name, boolean append) : 创建一个向具有指定名称的文件中写入数据的输出文件流； String name: 目的地是一个文件的路径；
     FileWriter(File file, boolean append) : 创建一个向指定File对象表示的文件中写入数据的文件输出流； File file: 目的地是一个文件；
         参数： boolean append : 追加开关；true表示追加，false表示覆盖；
-
+    
     换行：Windows(\r\n)、Linux(\n)、Mac(\r)
-
+    
     IO异常的处理：
         在JDK1.7之前使用try...catch...finally 处理流中的异常
-
+    
         public static void main(String[] args) {
             FileWriter fw = null;
             try {
@@ -2232,14 +2252,14 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
         可以使用Properties集合中的方法store，把集合中的历史数据 持久化写入到硬盘中存储；
         可以使用Properties集合中的方法load，把硬盘中保存的文件（键值对） 读取到集合中使用；
     属性列表中每个键及其对应值都是一个字符串：
-
+    
     使用Properties集合存储数据，遍历取出Properties集合中的数据；
     Properties集合是一个双列集合，key 和 value 默认都是字符串；
     Properties集合有一些操作字符串的特有方法：
         Object setProperty(String key, String value) 调用Hashtable的方法put()；
         String getProperty(String key) 通过key找到value值，此方法相当于Map集合中的get(key)方法；
         Set<String> stringPropertyNames() 返回此属性列表中的键值，其中该键机器对应值是字符串，此方法相当于Map集合中的keySet方法；
-
+    
     使用Properties集合中的方法store，把集合中的临时数据 持久化写入到硬盘中存储；
         void store(OutputStream, String comments);
         void store(Write write, String comments);
@@ -2253,7 +2273,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
             2、创建字节输出流/字符输出流对象，构造方法中绑定要输入的目的地；
             3、使用Properties集合中的方法store，把集合中的临时数据，持久化写入到硬盘中存储；
             4、释放资源；
-
+    
     使用Properties集合中的方法load，把硬盘中保存的文件（键值对），读取到集合中使用；
         void load(InputStream inStream)
         void load(Reader reader)
@@ -2274,7 +2294,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
     原理：是创建流对象时，会创建一个内置的默认大小的缓冲区数组，通过缓冲区读写，减少系统IO次数，从而提高读写效率；
     字节缓冲流：BufferedInputStream、BufferedOutputStream；
     字符缓冲流：BufferedReader、BufferedWrite
-
+    
     字节缓冲输出流： BufferedOutputStream；java.io.BufferedStream extends OutputStream
         继承父类的共性成员方法：
             public void close()
@@ -2291,7 +2311,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
             3、使用BufferedOutputStream对象中的write() ，把数据写入到内部缓冲区中；
             4、使用BufferedOutputStream对象中的flush() ， 把内部缓冲区中的数据，刷新到文件中；
             5、释放资源close()；
-
+    
     字节缓冲输出流：BufferedInputStream；java.io.BufferedInputStream extends InputStream
         继承父类的共性成员方法：
             1、int read()
@@ -2305,7 +2325,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
             2、创建BufferedInputStream对象，构造方法中传递FileInputStream对象，提高FileInputStream对象的读取效率；
             3、使用BufferedInputStream对象中的read()，读取文件；
             4、释放资源；
-
+    
     字符缓冲输出流：BufferedWriter： java.io.BufferedWriter extends Writer
         继承父类的共性成员方法：
             void write(int c)
@@ -2325,7 +2345,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
             2、调用字节缓冲输出流中的write() 方法，把数据写入到内存缓冲区中；
             3、调用字符缓冲输入流中的flush() 方法，把内存缓冲区中的数据，刷新到文件中；
             4、释放资源；
-
+    
     字符缓冲输入流： (BufferedReader) ；java.io.BufferedReader extends Reader；
         继承父类的共性方法：
             1、int read()
@@ -2362,9 +2382,9 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
     序列化 => 字节序列 => 写入文件 => 从文件提取 => 反序列化
         Java 提供了一种 对象序列化的机制，该机制中，一个对象可以被表示为一个字节序列，该字节序列包括该对象的数据、有关对象的类型的信息和存储在对象中数据的类型。
         将序列化对象写入文件之后，可以从文件中读取出来，并且对它进行反序列化，也就是说，对象的类型信息、对象的数据，还有对象中的数据类型可以用来在内存中新建对象。
-
+    
         序列化 整个过程 都是 Java虚拟机(JVM) 独立的，也就是说，在一个平台上序列化的对象可以在另一个完全不同的平台上反序列化该对象
-
+    
         类 ObjectInputStream 和 ObjectOutputStream 是高层次的数据流，它们包含反序列化和序列化对象的方法。
 
 
@@ -2377,7 +2397,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
 ### 网络编程：在一定的协议下，实现两台计算机的通信程序；
     C/S结构：（Client/Server) 是指客户端和服务器结构。QQ、迅雷等；
     B/S结构：（Brower/Server) 是指浏览器和服务器结构。火狐浏览器等；
-
+    
     网络编程三要素：
         1、协议：
         2、IP地址：ipv4 4个字节；ipv6 16个字节；
@@ -2411,12 +2431,12 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
             Socket(String host, int port) 创建一个流套接字，并将其连接到指定主机上的指定端口号。
                 String host：服务器主机的名称/服务器的IP地址；
                 int port：服务器的端口号；
-
+    
         成员方法：
             OutPutStream getOutputStream() 返回此套接字的输出流；
             InputStream getInputStream() 返回此套接字的输入流；
             void close() 关闭此套接字；
-
+    
         实现步骤：
             1、创建一个客户端对象Socket，构造方法绑定服务器的IP地址和端口号；
             2、使用Socket对象中的方法getOutputStream() 获取网络字节输出流OutputStream对象；
@@ -2427,7 +2447,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
             注意：
                 1、客户端和服务器端进行交互，必须使用Socket中提供的网络流，不能使用自己创建的流对象；
                 2、当我们创建客户端对象Socket的时候，回去请求服务器和服务器经过3次握手建立连接通路；如果服务器没有启动，就会抛出异常；
-
+    
     TCP通信的服务器端：接收客户端的请求，读取客户端发送的数据，给客户端回写数据
         表示服务器的类：
             java.net.ServerSocket：此类实现服务器套接字；
@@ -2436,7 +2456,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
         服务器要明确一件事情，必须知道是哪个客户端请求的服务器：所以可以使用accept方法获取到请求的客户端对象Socket；
         成员方法：
             Socket accept() 侦听并接受到此套接字的连接；
-
+    
         实现步骤：
             1、创建服务器ServerSocket对象和系统要指定的端口号；
             2、使用ServerSocket对象中的方法accept，获取到请求的客户端Socket；
@@ -2445,7 +2465,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
             5、使用Socket对象中的方法getOutputStream() 获取网络字节输入流OutputStream对象；
             6、使用网络字节输出流OutputStream对象中的write() 方法，给客户端回写数据；
             7、释放资源（Socket、ServerSocket）；
-
+    
     demo：
         // TCPClient
         public class TCPClient {
@@ -2466,7 +2486,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
                 socket.close();
             }
         }
-
+    
         // TCPServer
         public class TCPServer {
             public static void main(String[] args) throws IOException {
@@ -2507,7 +2527,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
     System.out.println("1的反正切值： " + Math.atan(1));  
     System.out.println("π/2的角度值：" + Math.toDegrees(Math.PI/2));  
     System.out.println(Math.PI); 
-
+    
     xxxValue()  将 Number 对象转换为xxx数据类型的值并返回。
     compareTo() 将number对象与参数比较。
     equals()    判断number对象是否与参数相等。
@@ -2539,7 +2559,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
 ### Character 类
     Character 类用于对单个字符进行操作。
     Character 类在对象中包装一个基本类型 char 的值
-
+    
     转义序列
         前面有反斜杠（\）的字符代表转义字符，它对编译器来说是有特殊含义的。
         下面列表展示了Java的转义序列：
@@ -2552,7 +2572,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
         \'	在文中该处插入单引号
         \"	在文中该处插入双引号
         \\	在文中该处插入反斜杠
-
+    
     Character 方法
         isLetter()      是否是一个字母
         isDigit()       是否是一个数字字符
@@ -2678,7 +2698,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
     # public delete(int start, int end)         移除此序列的子字符串中的字符。
     # public insert(int offset, int i)          将 int 参数的字符串表示形式插入此序列中。
     # replace(int start, int end, String str)   使用给定 String 中的字符替换此序列的子字符串中的字符。
-
+    
     ## 下面的列表里的方法和 String 类的方法类似：
         # int capacity()    返回当前容量。
         # char charAt(int index)    返回此序列中指定索引处的 char 值。
@@ -2704,7 +2724,7 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
 #### JDBC (Java DataBase Connectivity) Java数据库连接 java语言操作数据库；
     本质是官方（sun公司）定义的一套操作所有关系型数据库的规则，即接口，各个数据库厂商去实现这套接口，提供数据库驱动jar包。
     我们可以使用这套接口（JDBC）编程，真正执行的代码是驱动jar包中的实现类；
-
+    
     快速入门：
         1、导入驱动jar包；
         2、注册驱动；
@@ -2717,14 +2737,44 @@ public static <T> T requireNonNull(T obj) : 查看指定引用对象不是null
 
 ###
 
-#### 框架
+## 框架
 
 ### 三层架构
+
     1、表现层：用于展示数据接口的；
     2、业务层：处理业务需求；
     3、持久层：和数据库交互的；
 
-#### mybatis 是一个持久层框架，用java编写的；
-    mybatis封装了jdbc操作的很多细节，我们只需要关注SQL语句本身，而无需关注注册驱动，创建爱你连接等繁杂的过程；
-    mybatis使用ORM思想实现了结果集的封装；
-    ORM：Object Relational Mappging 对象关系映射；就是把数据表中和实体类及其实体类的属性对应起来，操作实体类就可以实现操作数据库表；
+![image-20210218163018310](/Users/zhangmenglei/Library/Application Support/typora-user-images/image-20210218163018310.png)
+
+### mybatis
+
+    mybatis 是一个优秀的基于java的持久层框架；
+    mybatis 内部封装了jdbc操作的很多细节，我们只需要关注SQL语句本身，而无需关注加载驱动、创建连接、创建statement等繁杂的过程；
+```
+mybatis 通过xml或注解的方式将要执行的各种statement配置起来，并通过java对象和statement中sql的动态参数进行映射生成最终执行的sql语句，最后由mybatis框架执行sql并将结果映射为java对象并返回；
+```
+
+```
+mybatis使用ORM思想实现了结果集的封装；
+ORM：Object Relational Mappging 对象关系映射；就是把数据表中和实体类及其实体类的属性对应起来，操作实体类就可以实现操作数据库表；
+create table user(
+	`id` int not null auto_increment,
+  `username` varchar(32) not null comment '用户名称',
+  `birthday` datetime default null commnet '生日',
+  `sex` char(1) default null comment '性别',
+  `address` varchar(256) default null comment ' 地址',
+  primary key(`id`) 
+ )engine=innodb default charset=utf8;
+```
+
+#### 环境搭建注意事项
+
+![image-20210219134702083](/Users/zhangmenglei/Library/Application Support/typora-user-images/image-20210219134702083.png)
+
+#### 入门案例
+
+![image-20210219140230063](/Users/zhangmenglei/Library/Application Support/typora-user-images/image-20210219140230063.png)
+
+![image-20210219141448015](/Users/zhangmenglei/Library/Application Support/typora-user-images/image-20210219141448015.png)
+

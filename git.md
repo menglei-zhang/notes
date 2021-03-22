@@ -38,7 +38,7 @@ get merge upstream/master    // master为主分支
 git remote -v
 
 删除存在的已连接的远程库并加入新库地址
-git remote rm origin
+git remote rm origins
 git remote add origin https://github.com/menglei-zhang/test.git
 git push -u origin master
 
@@ -69,3 +69,9 @@ git 提交代码到远程分支
 （PS：方案一和方案二选择一个即可）
 6.执行push推送代码
 　　git push origin 本地分支名:远程分支名
+
+git branch -v
+git add .
+git status
+git commit -m"车场列表，车场发布"
+git push origin dev:dev

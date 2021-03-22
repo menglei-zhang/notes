@@ -1,8 +1,12 @@
+```
 brew services start redis
 redis-cli
+```
 
+```
 redis (nosql:非关系型数据库) 数据在内存
 mysql (sql:关系型数据库)  数据存在磁盘中
+```
 
 ### Redis 数据类型
     Redis支持五种数据类型：string（字符串），hash（哈希），list（列表），set（集合）及zset(sorted set：有序集合)。
